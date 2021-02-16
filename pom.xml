@@ -14,8 +14,6 @@
   <version>0.0.1-SNAPSHOT</version>
 
   <properties>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
     <hapi-fhir.version>4.2.0</hapi-fhir.version>
   </properties>
   <dependencies>
