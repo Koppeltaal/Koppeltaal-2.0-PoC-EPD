@@ -113,7 +113,12 @@ public class PractitionerDtoConverter implements DtoConverter<PractitionerDto, P
 		}
 
 		Enumerations.AdministrativeGender gender = practitioner.getGender();
-		practitionerDto.setGender(Objects.requireNonNullElse(gender, Enumerations.AdministrativeGender.UNKNOWN).toCode());
+		if (gender != null) {
+			practitionerDto.setGender(gender.toCode());
+		} else {
+			practitionerDto.setGender(Enumerations.AdministrativeGender.UNKNOWN.toCode());
+		}
+
 
 		Date birthDate = practitioner.getBirthDate();
 		practitionerDto.setBirthDate(birthDate);

@@ -84,7 +84,12 @@ public class PatientDtoConverter implements DtoConverter<PatientDto, Patient> {
 		}
 
 		Enumerations.AdministrativeGender gender = patient.getGender();
-		patientDto.setGender(Objects.requireNonNullElse(gender, Enumerations.AdministrativeGender.UNKNOWN).toCode());
+		if (gender != null) {
+			patientDto.setGender(gender.toCode());
+		} else {
+			patientDto.setGender(Enumerations.AdministrativeGender.UNKNOWN.toCode());
+		}
+
 
 		Date birthDate = patient.getBirthDate();
 		patientDto.setBirthDate(birthDate);
