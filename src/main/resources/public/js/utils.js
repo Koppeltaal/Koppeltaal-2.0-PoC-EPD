@@ -67,7 +67,6 @@ function enableMaterializeElements() {
 }
 
 function updateForm() {
-  console.log('updateForm')
   M.updateTextFields();
   let textAreas = document.querySelectorAll('textarea');
   textAreas.forEach((textarea) => {

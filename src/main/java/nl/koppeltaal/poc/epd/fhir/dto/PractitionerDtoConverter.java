@@ -73,11 +73,22 @@ public class PractitionerDtoConverter implements DtoConverter<PractitionerDto, P
 			}
 		}
 
+		practitioner.getQualification().clear();
+		String organization = practitionerDto.getOrganization();
+		if (StringUtils.isNotEmpty(organization) && StringUtils.contains(organization, "|")) {
+			Practitioner.PractitionerQualificationComponent practitionerQualificationComponent = practitioner.addQualification();
+			Reference issuer = practitionerQualificationComponent.getIssuer();
+			issuer.setType("Organization");
+			Identifier identifier = issuer.getIdentifier();
+			String[] split = StringUtils.split(organization, "|");
+			if (split.length == 2) {
+				identifier.setSystem(split[0]);
+				identifier.setValue(split[1]);
+			}
+		}
+
 	}
 
-	private List<String> unjoinAdressLine(String addressLines) {
-		return Arrays.asList(StringUtils.split(addressLines, "\n"));
-	}
 
 
 	public void applyResource(PractitionerDto practitionerDto, Practitioner practitioner) {
@@ -129,17 +140,17 @@ public class PractitionerDtoConverter implements DtoConverter<PractitionerDto, P
 			break;
 		}
 
-	}
-
-	private String joinAdressLines(Address address) {
-		String addressLine = "";
-		for (StringType stringType : address.getLine()) {
-			if (StringUtils.isNotEmpty(addressLine)) {
-				addressLine += "\n";
+		for (Practitioner.PractitionerQualificationComponent practitionerQualificationComponent : practitioner.getQualification()) {
+			Reference issuer = practitionerQualificationComponent.getIssuer();
+			if (issuer != null && StringUtils.equals("Organization", issuer.getType())) {
+				Identifier identifier = issuer.getIdentifier();
+				if (identifier != null) {
+					practitionerDto.setOrganization(String.format("%s|%s", identifier.getSystem(), identifier.getValue()));
+					break;
+				}
 			}
-			addressLine += stringType.getValue();
 		}
-		return addressLine;
+
 	}
 
 	public PractitionerDto convert(Practitioner practitioner) {
@@ -156,16 +167,6 @@ public class PractitionerDtoConverter implements DtoConverter<PractitionerDto, P
 
 		applyDto(practitioner, practitionerDto);
 		return practitioner;
-	}
-
-
-	private Identifier createIdentifier(String system, String value) {
-		Identifier identifier = new Identifier();
-		Identifier.IdentifierUse use = Identifier.IdentifierUse.OFFICIAL;
-		identifier.setSystem(system);
-		identifier.setValue(value);
-		identifier.setUse(use);
-		return identifier;
 	}
 
 	private String getRelativeReference(IIdType idElement) {

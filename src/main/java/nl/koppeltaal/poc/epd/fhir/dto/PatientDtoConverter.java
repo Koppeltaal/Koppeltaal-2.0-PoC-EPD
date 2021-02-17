@@ -13,17 +13,14 @@ import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
  */
 @Component
 public class PatientDtoConverter implements DtoConverter<PatientDto, Patient> {
-
-	private List<String> unjoinAdressLine(String addressLines) {
-		return Arrays.asList(StringUtils.split(addressLines, "\n"));
-	}
 
 	public void applyDto(Patient patient, PatientDto patientDto) {
 		patient.addIdentifier(createIdentifier(patientDto.getIdentifierSystem(), patientDto.getIdentifierValue()));
@@ -57,6 +54,19 @@ public class PatientDtoConverter implements DtoConverter<PatientDto, Patient> {
 			humanName.getGiven().clear();
 			for (String givenName : StringUtils.split(patientDto.getNameGiven())) {
 				humanName.addGiven(givenName);
+			}
+		}
+
+		String organization = patientDto.getOrganization();
+		if (StringUtils.isNotEmpty(organization) && StringUtils.contains(organization, "|")) {
+			Reference managingOrganization = patient.getManagingOrganization();
+			if (managingOrganization != null) {
+				Identifier identifier = managingOrganization.getIdentifier();
+				String[] split = StringUtils.split(organization, "|");
+				if (split.length == 2) {
+					identifier.setSystem(split[0]);
+					identifier.setValue(split[1]);
+				}
 			}
 		}
 	}
@@ -99,6 +109,15 @@ public class PatientDtoConverter implements DtoConverter<PatientDto, Patient> {
 			patientDto.setNameGiven(humanName.getGivenAsSingleString());
 			break;
 		}
+
+		Reference organization = patient.getManagingOrganization();
+		if (organization != null) {
+			Identifier identifier = organization.getIdentifier();
+			if (identifier != null) {
+				patientDto.setOrganization(String.format("%s|%s", identifier.getSystem(), identifier.getValue()));
+			}
+		}
+
 	}
 
 	public PatientDto convert(Patient patient) {
@@ -115,15 +134,6 @@ public class PatientDtoConverter implements DtoConverter<PatientDto, Patient> {
 
 		applyDto(patient, patientDto);
 		return patient;
-	}
-
-	private Identifier createIdentifier(String system, String value) {
-		Identifier identifier = new Identifier();
-		Identifier.IdentifierUse use = Identifier.IdentifierUse.OFFICIAL;
-		identifier.setSystem(system);
-		identifier.setValue(value);
-		identifier.setUse(use);
-		return identifier;
 	}
 
 	private String getRelativeReference(IIdType idElement) {

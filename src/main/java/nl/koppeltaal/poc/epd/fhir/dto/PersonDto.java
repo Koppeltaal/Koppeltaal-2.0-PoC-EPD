@@ -18,6 +18,7 @@ public class PersonDto extends BaseDto {
 	String nameGiven;
 	String gender;
 	Date birthDate;
+	String organization;
 
 	public Date getBirthDate() {
 		return birthDate;
@@ -49,6 +50,14 @@ public class PersonDto extends BaseDto {
 
 	public void setNameGiven(String nameGiven) {
 		this.nameGiven = nameGiven;
+	}
+
+	public String getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
 	}
 
 

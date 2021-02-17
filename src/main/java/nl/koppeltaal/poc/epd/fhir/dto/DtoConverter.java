@@ -8,8 +8,11 @@
 
 package nl.koppeltaal.poc.epd.fhir.dto;
 
-import org.hl7.fhir.r4.model.ContactPoint;
-import org.hl7.fhir.r4.model.DomainResource;
+import org.apache.commons.lang3.StringUtils;
+import org.hl7.fhir.r4.model.*;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -38,5 +41,28 @@ public interface DtoConverter<D extends BaseDto, R extends DomainResource> {
 		addTelecom(contactPoint, homeEmail, use, ContactPoint.ContactPointSystem.PHONE);
 	}
 
+	default Identifier createIdentifier(String system, String value) {
+		Identifier identifier = new Identifier();
+		Identifier.IdentifierUse use = Identifier.IdentifierUse.OFFICIAL;
+		identifier.setSystem(system);
+		identifier.setValue(value);
+		identifier.setUse(use);
+		return identifier;
+	}
+
+	default String joinAdressLines(Address address) {
+		String addressLine = "";
+		for (StringType stringType : address.getLine()) {
+			if (StringUtils.isNotEmpty(addressLine)) {
+				addressLine += "\n";
+			}
+			addressLine += stringType.getValue();
+		}
+		return addressLine;
+	}
+
+	default List<String> unjoinAdressLine(String addressLines) {
+		return Arrays.asList(StringUtils.split(addressLines, "\n"));
+	}
 
 }

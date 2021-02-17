@@ -29,16 +29,16 @@
     <div class="nav-content purple lighten-3">
         <ul class="tabs tabs-transparent">
             <li class="tab"><a href="index.html">Main</a></li>
-            <li class="tab"><a href="patients.html" class="active">Patients</a></li>
+            <li class="tab"><a href="patients.html">Patients</a></li>
             <li class="tab"><a href="practitioners.html">Practitioners</a></li>
-            <li class="tab"><a href="organizations.html">Organization</a></li>
+            <li class="tab"><a href="organizations.html" class="active">Organization</a></li>
         </ul>
     </div>
 </nav>
-<div class="container content-tab patients">
+<div class="container content-tab organizations">
     <div class="row">
         <div class="col s12">
-            <h1>Patients</h1>
+            <h1>Organizations</h1>
         </div>
     </div>
     <div class="row">
@@ -48,7 +48,7 @@
                 <tr>
                     <th>Identifier</th>
                     <th>Name</th>
-                    <th>E-mail</th>
+                    <th>Contact info</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -59,17 +59,18 @@
         </div>
     </div>
     <div class="row">
-        <form action="/api/patients" data-tab="patients" class="col s12">
+        <form action="/api/organizations" data-tab="organizations" class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <span class="card-title">Add a patient</span>
+                    <span class="card-title">Add a organization</span>
 
                     <input name="active" id="active" type="hidden" value="true"/>
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">domain</i>
                             <select id="identifierSystem" name="identifierSystem">
-                                <option value="IRMA">IRMA</option>
+                                <option value="http://fhir.nl/fhir/NamingSystem/agb-z">agb-z</option>
+                                <option value="http://fhir.nl/fhir/NamingSystem/ura">ura</option>
                             </select>
                             <label for="identifierSystem">Identifier system</label>
                         </div>
@@ -81,58 +82,53 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s6">
+                        <div class="input-field col s12">
                             <i class="material-icons prefix">account_circle</i>
-                            <input placeholder="Voornaam(en)" name="nameGiven" id="nameGiven" type="text"
+                            <input placeholder="Naam" name="name" id="name" type="text"
                                    class="validate">
-                            <label for="nameGiven">First Name</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">account_circle</i>
-                            <input placeholder="Achternaam" name="nameFamily" id="nameFamily" type="text"
-                                   class="validate">
-                            <label for="nameFamily">Last Name</label>
+                            <label for="name">Name</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">contact_mail</i>
-                            <input placeholder="work@example.com" name="workEmail" id="workEmail" type="text"
+                            <input placeholder="work@example.com" name="email" id="email" type="text"
                                    class="validate">
-                            <label for="workEmail">Work e-mail</label>
+                            <label for="email">E-mail</label>
                         </div>
                         <div class="input-field col s6">
-                            <i class="material-icons prefix">email</i>
-                            <input placeholder="me@gmail.com" name="homeEmail" id="homeEmail" type="text"
+                            <i class="material-icons prefix">contact_phone</i>
+                            <input placeholder="06-432311322" name="phone" id="phone" type="text"
                                    class="validate">
-                            <label for="homeEmail">Home e-mail</label>
+                            <label for="phone">Phone</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">perm_identity</i>
-                            <select id="gender" name="gender">
-                                <option value="unknown">Unknown</option>
-                                <option value="female">Female</option>
-                                <option value="male">Male</option>
-                                <option value="other">Other</option>
-                            </select>
-                            <label for="gender">Gender</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">date_range</i>
-                            <input class="datepicker" name="birthDate" id="birthDate" type="text"
-                                   class="validate">
-                            <label for="birthDate">Birthdate (dd-mm-yyyy)</label>
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">local_post_office</i>
+                            <textarea placeholder="Heilgeweg 26-28" name="addressLines" id="addressLines"
+                                      class="materialize-textarea"></textarea>
+                            <label for="addressLines">Address Lines</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">business</i>
-                            <select id="organization" name="organization">
-                                <option value="">[NONE]</option>
-                            </select>
-                            <label for="organization">Organization</label>
+                        <div class="input-field col s4">
+                            <i class="material-icons prefix">location_city</i>
+                            <input placeholder="Amsterdam" name="addressCity" id="addressCity" type="text"
+                                   class="validate">
+                            <label for="addressCity">City</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <i class="material-icons prefix">code</i>
+                            <input placeholder="1012 XR" name="addressPostalCode" id="addressPostalCode" type="text"
+                                   class="validate">
+                            <label for="addressPostalCode">ZIP code</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <i class="material-icons prefix">flag</i>
+                            <input placeholder="NL" name="addressCountry" id="addressCountry" type="text"
+                                   class="validate">
+                            <label for="addressCountry">Country</label>
                         </div>
                     </div>
                 </div>
@@ -148,10 +144,10 @@
         </form>
     </div>
 </div>
-<div class="container content-tab practitioners" style="display: none">
+<div class="container content-tab organizations" style="display: none">
     <div class="row">
         <div class="col s12">
-            <h1>Practitioners</h1>
+            <h1>Organizations</h1>
         </div>
     </div>
 </div>
@@ -171,24 +167,24 @@
 
       return td;
     }
-    fetch('/api/patients?t_=' + new Date().getTime())
+    fetch('/api/organizations?t_=' + new Date().getTime())
       .then(jsonResponseHandler)
       .then((data) => {
-        const tdata = document.querySelector('div.patients table.data tbody');
+        const tdata = document.querySelector('div.organizations table.data tbody');
         tdata.innerHTML = '';
         for (var i in data) {
-          const patient = data[i];
+          const organization = data[i];
           const tr = document.createElement('tr');
 
-          tr.append(createTd(patient.identifierSystem, patient.identifierValue));
-          tr.append(createTd(patient.nameGiven, patient.nameFamily));
-          tr.append(createTd(patient.homeEmail, patient.workEmail));
+          tr.append(createTd(organization.identifierSystem, organization.identifierValue));
+          tr.append(createTd(organization.name, organization.nameFamily));
+          tr.append(createTd(organization.email, organization.phone));
           let td = document.createElement('td');
           let deleteAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">delete_forever</i>delete</a>')
-          deleteAction.setAttribute("data-id", patient.id)
+          deleteAction.setAttribute("data-id", organization.id)
           deleteAction.onclick = (e) => {
             const id = e.target.getAttribute("data-id");
-            fetch('/api/patients/' + id, {method: 'DELETE'}).then(() => {
+            fetch('/api/organizations/' + id, {method: 'DELETE'}).then(() => {
               render();
             });
             return false;
@@ -196,8 +192,8 @@
           td.append(deleteAction);
           td.append(' ');
           let editAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">edit</i>edit</a>')
-          editAction.setAttribute("data-id", patient.id)
-          editAction.setAttribute("data-identifierValue", patient.identifierValue)
+          editAction.setAttribute("data-id", organization.id)
+          editAction.setAttribute("data-identifierValue", organization.identifierValue)
           editAction.onclick = (e) => {
             const identifierValue = e.target.getAttribute("data-identifierValue");
             document.getElementById('identifierValue').value = identifierValue;
@@ -218,21 +214,25 @@
       let input = e.target;
       let value = input.value
       if (value) {
-        fetch('/api/patients/' + value)
+        fetch('/api/organizations/' + value)
           .then(jsonResponseHandler)
           .then((data) => {
             for (let key in data) {
               let value = data[key];
               let element = document.getElementById(key);
               if (element) {
-                element.value = readValue(value, key);
+                if (element.nodeName === 'TEXTAREA') {
+                  element.textContent = readValue(value, key);
+                } else {
+                  element.value = readValue(value, key);
+                }
               }
             }
-
           })
           .then(updateForm)
           .catch(reason => {
             // ignore
+            console.log(reason)
           })
         document.querySelector("button[type='submit']").disabled = false;
       } else {
@@ -258,15 +258,6 @@
           }
         }
       });
-    fetch('/api/organizations')
-      .then(jsonResponseHandler)
-      .then((organizations) => {
-        for (let i in organizations) {
-          organization = organizations[i];
-          document.getElementById('organization').append(parseHtml('<option value="' + organization.identifierSystem + "|" + organization.identifierValue + '">' + organization.name + '</option>'))
-        }
-      })
-      .then(updateForm);
   }, false);
 </script>
 </body>
