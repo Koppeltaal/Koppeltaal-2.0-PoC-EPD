@@ -8,6 +8,8 @@
 
 package nl.koppeltaal.poc.epd.fhir.service;
 
+import brave.Tracing;
+import brave.httpclient.TracingHttpClientBuilder;
 import com.auth0.jwk.JwkException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,7 +24,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.stereotype.Service;
 
@@ -41,11 +42,13 @@ public class Oauth2ClientService {
 	final FhirCapabilitiesService fhirCapabilitiesService;
 	final JwtValidationService jwtValidationService;
 	final FhirClientConfiguration fhirClientConfiguration;
+	final Tracing tracing;
 
-	public Oauth2ClientService(FhirCapabilitiesService fhirCapabilitiesService, JwtValidationService jwtValidationService, FhirClientConfiguration fhirClientConfiguration) {
+	public Oauth2ClientService(FhirCapabilitiesService fhirCapabilitiesService, JwtValidationService jwtValidationService, FhirClientConfiguration fhirClientConfiguration, Tracing tracing) {
 		this.fhirCapabilitiesService = fhirCapabilitiesService;
 		this.jwtValidationService = jwtValidationService;
 		this.fhirClientConfiguration = fhirClientConfiguration;
+		this.tracing = tracing;
 	}
 
 	public void checkCredentials(TokenStorage tokenStorage) throws JwkException, IOException {
@@ -86,7 +89,7 @@ public class Oauth2ClientService {
 
 	public void getToken(String code, String redirectUri, TokenStorage tokenStorage) throws IOException {
 		String tokenUrl = fhirCapabilitiesService.getOAuth2Urls().getTokenUrl();
-		try (final CloseableHttpClient httpClient = HttpClients.createDefault()) {
+		try (final CloseableHttpClient httpClient = createHttpClient()) {
 
 			List<NameValuePair> params = new ArrayList<>();
 			params.add(new BasicNameValuePair("grant_type", "authorization_code"));
@@ -106,6 +109,10 @@ public class Oauth2ClientService {
 		}
 	}
 
+	private CloseableHttpClient createHttpClient() {
+		return TracingHttpClientBuilder.create(tracing).build();
+	}
+
 	public String getUserIdFromCredentials(TokenStorage tokenStorage) throws JwkException, IOException {
 		try {
 			return jwtValidationService.validate(tokenStorage.getToken().getIdToken(), fhirClientConfiguration.getClientId()).getSubject();
@@ -118,7 +125,7 @@ public class Oauth2ClientService {
 
 	public void refreshToken(TokenStorage tokenStorage) throws IOException {
 		String tokenUrl = fhirCapabilitiesService.getOAuth2Urls().getTokenUrl();
-		try (final CloseableHttpClient httpClient = HttpClients.createDefault()) {
+		try (final CloseableHttpClient httpClient = createHttpClient()) {
 
 			List<NameValuePair> params = new ArrayList<>();
 			params.add(new BasicNameValuePair("grant_type", "refresh_token"));
