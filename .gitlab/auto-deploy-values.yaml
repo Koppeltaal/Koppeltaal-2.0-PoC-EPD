@@ -1,5 +1,5 @@
 livenessProbe:
-  probeType: "tcpSocket"
+  path: "/health"
 
 readinessProbe:
-  probeType: "tcpSocket"
+  path: "/health"
