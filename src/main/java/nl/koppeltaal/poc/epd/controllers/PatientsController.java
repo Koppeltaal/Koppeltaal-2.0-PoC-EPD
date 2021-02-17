@@ -13,9 +13,11 @@ import nl.koppeltaal.poc.epd.exception.EnitityNotFoundException;
 import nl.koppeltaal.poc.epd.fhir.dto.PatientDtoConverter;
 import nl.koppeltaal.poc.epd.fhir.dto.PatientDto;
 import nl.koppeltaal.poc.epd.fhir.service.PatientFhirClientService;
+import nl.koppeltaal.poc.epd.utils.UrlUtils;
 import org.hl7.fhir.r4.model.Patient;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,8 +50,8 @@ public class PatientsController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public PatientDto put(HttpSession httpSession, @RequestBody PatientDto patientDto) throws IOException, JwkException {
-		return dtoConverter.convert(fhirClientService.storeResource(new SessionTokenStorage(httpSession), dtoConverter.convert(patientDto)));
+	public PatientDto put(HttpSession httpSession, HttpServletRequest request, @RequestBody PatientDto patientDto) throws IOException, JwkException {
+		return dtoConverter.convert(fhirClientService.storeResource(new SessionTokenStorage(httpSession), UrlUtils.getServerUrl("", request), dtoConverter.convert(patientDto)));
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)

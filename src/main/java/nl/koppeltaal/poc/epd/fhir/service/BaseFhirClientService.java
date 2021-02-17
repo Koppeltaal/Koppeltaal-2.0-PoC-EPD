@@ -86,21 +86,30 @@ public abstract class BaseFhirClientService<D extends BaseDto, R extends DomainR
 		return null;
 	}
 
-	public R storeResource(Oauth2ClientService.TokenStorage tokenStorage, R practitioner) throws IOException, JwkException {
-		String identifier = getIdentifier("IRMA", practitioner);
+	public R storeResource(Oauth2ClientService.TokenStorage tokenStorage, String source, R resource) throws IOException, JwkException {
+		String identifier = getIdentifier("IRMA", resource);
 		if (StringUtils.isNotEmpty(identifier)) {
 			R otherPractitioner = getResourceByIdentifier(tokenStorage, identifier, "IRMA");
 			if (otherPractitioner != null) {
-				dtoConverter.applyDto(otherPractitioner, dtoConverter.convert(practitioner));
+				dtoConverter.applyDto(otherPractitioner, dtoConverter.convert(resource));
 				getFhirClient(tokenStorage).update().resource(otherPractitioner).execute();
 				return otherPractitioner;
 			}
 
 		}
-		MethodOutcome execute = getFhirClient(tokenStorage).create().resource(practitioner).execute();
+		updateMetaElement(source, resource);
+		MethodOutcome execute = getFhirClient(tokenStorage).create().resource(resource).execute();
 		return (R) execute.getResource();
 	}
 
+	private void updateMetaElement(String source, R resource) {
+		Meta meta = resource.getMeta();
+		if (meta == null) {
+			meta = new Meta();
+		}
+		meta.setSource(source);
+		resource.setMeta(meta);
+	}
 
 
 	protected abstract String getIdentifier(String system, R resource);

@@ -15,9 +15,11 @@ import nl.koppeltaal.poc.epd.fhir.dto.PractitionerDto;
 import nl.koppeltaal.poc.epd.fhir.dto.PractitionerDtoConverter;
 import nl.koppeltaal.poc.epd.fhir.service.PatientFhirClientService;
 import nl.koppeltaal.poc.epd.fhir.service.PractitionerFhirClientService;
+import nl.koppeltaal.poc.epd.utils.UrlUtils;
 import org.hl7.fhir.r4.model.Practitioner;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,8 +52,8 @@ public class PractitionerController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public PractitionerDto put(HttpSession httpSession, @RequestBody PractitionerDto practitionersDto) throws IOException, JwkException {
-		return dtoConverter.convert(fhirClientService.storeResource(new SessionTokenStorage(httpSession), dtoConverter.convert(practitionersDto)));
+	public PractitionerDto put(HttpSession httpSession, HttpServletRequest request, @RequestBody PractitionerDto practitionersDto) throws IOException, JwkException {
+		return dtoConverter.convert(fhirClientService.storeResource(new SessionTokenStorage(httpSession), UrlUtils.getServerUrl("", request), dtoConverter.convert(practitionersDto)));
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
