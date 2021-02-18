@@ -9,13 +9,14 @@
 package nl.koppeltaal.poc.epd.controllers;
 
 import nl.koppeltaal.poc.fhir.service.Oauth2ClientService;
+import nl.koppeltaal.poc.generic.TokenStorage;
 
 import javax.servlet.http.HttpSession;
 
 /**
  *
  */
-public class SessionTokenStorage implements Oauth2ClientService.TokenStorage {
+public class SessionTokenStorage implements TokenStorage {
 	final HttpSession httpSession;
 
 	public SessionTokenStorage(HttpSession httpSession) {
