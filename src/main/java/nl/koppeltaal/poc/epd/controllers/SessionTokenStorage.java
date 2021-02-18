@@ -8,7 +8,7 @@
 
 package nl.koppeltaal.poc.epd.controllers;
 
-import nl.koppeltaal.poc.fhir.service.Oauth2ClientService;
+import nl.koppeltaal.poc.generic.Oauth2TokenResponse;
 import nl.koppeltaal.poc.generic.TokenStorage;
 
 import javax.servlet.http.HttpSession;
@@ -24,13 +24,13 @@ public class SessionTokenStorage implements TokenStorage {
 	}
 
 	@Override
-	public Oauth2ClientService.Oauth2TokenResponse getToken() {
-		return (Oauth2ClientService.Oauth2TokenResponse) httpSession.getAttribute("credentials");
+	public void clear() {
+		httpSession.removeAttribute("credentials");
 	}
 
 	@Override
-	public void updateToken(Oauth2ClientService.Oauth2TokenResponse token) {
-		httpSession.setAttribute("credentials", token);
+	public Oauth2TokenResponse getToken() {
+		return (Oauth2TokenResponse) httpSession.getAttribute("credentials");
 	}
 
 	public boolean hasToken() {
@@ -38,7 +38,7 @@ public class SessionTokenStorage implements TokenStorage {
 	}
 
 	@Override
-	public void clear() {
-		httpSession.removeAttribute("credentials");
+	public void updateToken(Oauth2TokenResponse token) {
+		httpSession.setAttribute("credentials", token);
 	}
 }
