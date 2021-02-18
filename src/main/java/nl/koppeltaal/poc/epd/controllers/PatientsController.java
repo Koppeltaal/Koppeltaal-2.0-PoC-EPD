@@ -10,9 +10,9 @@ package nl.koppeltaal.poc.epd.controllers;
 
 import com.auth0.jwk.JwkException;
 import nl.koppeltaal.poc.epd.exception.EnitityNotFoundException;
-import nl.koppeltaal.poc.epd.fhir.dto.PatientDtoConverter;
-import nl.koppeltaal.poc.epd.fhir.dto.PatientDto;
-import nl.koppeltaal.poc.epd.fhir.service.PatientFhirClientService;
+import nl.koppeltaal.poc.fhir.dto.PatientDtoConverter;
+import nl.koppeltaal.poc.fhir.dto.PatientDto;
+import nl.koppeltaal.poc.fhir.service.PatientFhirClientService;
 import nl.koppeltaal.poc.epd.utils.UrlUtils;
 import org.hl7.fhir.r4.model.Patient;
 import org.springframework.web.bind.annotation.*;

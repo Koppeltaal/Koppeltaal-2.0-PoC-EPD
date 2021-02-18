@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package nl.koppeltaal.poc.epd.fhir.dto;
+package nl.koppeltaal.poc.fhir.dto;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.instance.model.api.IIdType;

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package nl.koppeltaal.poc.epd.fhir.service;
+package nl.koppeltaal.poc.fhir.service;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
@@ -17,9 +17,8 @@ import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import com.auth0.jwk.JwkException;
 import nl.koppeltaal.poc.epd.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.epd.controllers.SessionTokenStorage;
-import nl.koppeltaal.poc.epd.fhir.dto.BaseDto;
-import nl.koppeltaal.poc.epd.fhir.dto.DtoConverter;
-import nl.koppeltaal.poc.epd.fhir.dto.PatientDto;
+import nl.koppeltaal.poc.fhir.dto.BaseDto;
+import nl.koppeltaal.poc.fhir.dto.DtoConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
 import org.hl7.fhir.r4.model.*;

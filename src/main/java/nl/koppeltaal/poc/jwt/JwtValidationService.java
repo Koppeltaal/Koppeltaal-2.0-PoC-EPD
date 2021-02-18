@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package nl.koppeltaal.poc.epd.general;
+package nl.koppeltaal.poc.jwt;
 
 import com.auth0.jwk.*;
 import com.auth0.jwt.JWT;

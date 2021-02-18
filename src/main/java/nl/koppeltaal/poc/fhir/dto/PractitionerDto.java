@@ -6,9 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package nl.koppeltaal.poc.epd.fhir.dto;
-
-import java.util.Date;
+package nl.koppeltaal.poc.fhir.dto;
 
 /**
  *

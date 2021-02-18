@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package nl.koppeltaal.poc.epd.fhir.service;
+package nl.koppeltaal.poc.fhir.service;
 
 import com.auth0.jwk.JwkException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
@@ -14,8 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.koppeltaal.poc.epd.configuration.FhirClientConfiguration;
-import nl.koppeltaal.poc.epd.fhir.dto.AuthorizationUrlDto;
-import nl.koppeltaal.poc.epd.general.JwtValidationService;
+import nl.koppeltaal.poc.fhir.dto.AuthorizationUrlDto;
+import nl.koppeltaal.poc.jwt.JwtValidationService;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;

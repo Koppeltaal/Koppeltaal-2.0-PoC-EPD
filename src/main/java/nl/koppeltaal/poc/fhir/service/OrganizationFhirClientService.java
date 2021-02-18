@@ -6,28 +6,28 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package nl.koppeltaal.poc.epd.fhir.service;
+package nl.koppeltaal.poc.fhir.service;
 
 import ca.uhn.fhir.context.FhirContext;
 import nl.koppeltaal.poc.epd.configuration.FhirClientConfiguration;
-import nl.koppeltaal.poc.epd.fhir.dto.*;
+import nl.koppeltaal.poc.fhir.dto.OrganizationDto;
+import nl.koppeltaal.poc.fhir.dto.OrganizationDtoConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Identifier;
-import org.hl7.fhir.r4.model.Patient;
-import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.Organization;
 import org.springframework.stereotype.Service;
 
 /**
  *
  */
 @Service
-public class PractitionerFhirClientService extends BaseFhirClientService<PractitionerDto, Practitioner> {
+public class OrganizationFhirClientService extends BaseFhirClientService<OrganizationDto, Organization> {
 
-	public PractitionerFhirClientService(FhirClientConfiguration fhirClientConfiguration, Oauth2ClientService oauth2ClientService, FhirContext fhirContext, PractitionerDtoConverter dtoConverter) {
-		super(fhirClientConfiguration, oauth2ClientService, fhirContext, dtoConverter);
+	public OrganizationFhirClientService(FhirClientConfiguration fhirClientConfiguration, Oauth2ClientService oauth2ClientService, FhirContext fhirContext, OrganizationDtoConverter organizationDtoConverter) {
+		super(fhirClientConfiguration, oauth2ClientService, fhirContext, organizationDtoConverter);
 	}
 
-	protected String getIdentifier(String system, Practitioner resource) {
+	protected String getIdentifier(String system, Organization resource) {
 		for (Identifier identifier : resource.getIdentifier()) {
 			if (StringUtils.equals(identifier.getSystem(), system)) {
 				return identifier.getValue();
@@ -38,7 +38,7 @@ public class PractitionerFhirClientService extends BaseFhirClientService<Practit
 
 	@Override
 	protected String getResourceName() {
-		return "Practitioner";
+		return "Organization";
 	}
 
 

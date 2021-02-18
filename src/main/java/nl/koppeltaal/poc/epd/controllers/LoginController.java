@@ -8,8 +8,8 @@
 
 package nl.koppeltaal.poc.epd.controllers;
 
-import nl.koppeltaal.poc.epd.fhir.dto.AuthorizationUrlDto;
-import nl.koppeltaal.poc.epd.fhir.service.Oauth2ClientService;
+import nl.koppeltaal.poc.fhir.dto.AuthorizationUrlDto;
+import nl.koppeltaal.poc.fhir.service.Oauth2ClientService;
 import nl.koppeltaal.poc.epd.utils.UrlUtils;
 import org.junit.Assert;
 import org.springframework.stereotype.Controller;

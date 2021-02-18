@@ -6,16 +6,16 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.2.13.RELEASE</version>
+    <version>2.4.2</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
+  <name>Koppeltaal 2.0 PoC EPD</name>
   <groupId>nl.koppeltaal.poc.epd</groupId>
   <artifactId>koppeltaal-2.0-poc-epd</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
   <properties>
     <hapi-fhir.version>4.2.0</hapi-fhir.version>
-    <release.train.version>Hoxton.SR10</release.train.version>
   </properties>
   <dependencies>
     <dependency>
@@ -41,6 +41,10 @@
       <artifactId>org.hl7.fhir.r4</artifactId>
       <version>${hapi-fhir.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
 
     <!-- JWT -->
     <dependency>
@@ -60,17 +64,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <dependencyManagement>
-      <dependencies>
-          <dependency>
-              <groupId>org.springframework.cloud</groupId>
-              <artifactId>spring-cloud-dependencies</artifactId>
-              <version>${release.train.version}</version>
-              <type>pom</type>
-              <scope>import</scope>
-          </dependency>
-      </dependencies>
-  </dependencyManagement>
   <build>
     <finalName>${project.name}</finalName>
     <plugins>

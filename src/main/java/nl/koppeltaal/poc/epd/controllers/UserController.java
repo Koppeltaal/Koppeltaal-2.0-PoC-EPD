@@ -10,7 +10,7 @@ package nl.koppeltaal.poc.epd.controllers;
 
 import com.auth0.jwk.JwkException;
 import nl.koppeltaal.poc.epd.dto.UserDto;
-import nl.koppeltaal.poc.epd.fhir.service.Oauth2ClientService;
+import nl.koppeltaal.poc.fhir.service.Oauth2ClientService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;

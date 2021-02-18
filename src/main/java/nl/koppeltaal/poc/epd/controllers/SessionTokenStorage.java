@@ -8,7 +8,7 @@
 
 package nl.koppeltaal.poc.epd.controllers;
 
-import nl.koppeltaal.poc.epd.fhir.service.Oauth2ClientService;
+import nl.koppeltaal.poc.fhir.service.Oauth2ClientService;
 
 import javax.servlet.http.HttpSession;
 
