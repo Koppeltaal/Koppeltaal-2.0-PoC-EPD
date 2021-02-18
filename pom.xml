@@ -62,7 +62,7 @@
   <repositories>
     <repository>
       <id>gitlab-maven</id>
-      <url>https://gitlab.example.com/api/v4/groups/10998572/-/packages/maven</url>
+      <url>https://gitlab.com/api/v4/groups/10998572/-/packages/maven</url>
     </repository>
   </repositories>
 </project>
