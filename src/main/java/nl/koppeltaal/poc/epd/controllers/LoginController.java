@@ -10,7 +10,7 @@ package nl.koppeltaal.poc.epd.controllers;
 
 import nl.koppeltaal.poc.fhir.dto.AuthorizationUrlDto;
 import nl.koppeltaal.poc.fhir.service.Oauth2ClientService;
-import nl.koppeltaal.poc.epd.utils.UrlUtils;
+import nl.koppeltaal.poc.utils.UrlUtils;
 import org.junit.Assert;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

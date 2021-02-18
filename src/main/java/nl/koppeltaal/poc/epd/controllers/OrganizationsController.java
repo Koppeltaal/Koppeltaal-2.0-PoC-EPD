@@ -13,7 +13,7 @@ import nl.koppeltaal.poc.epd.exception.EnitityNotFoundException;
 import nl.koppeltaal.poc.fhir.dto.OrganizationDto;
 import nl.koppeltaal.poc.fhir.dto.OrganizationDtoConverter;
 import nl.koppeltaal.poc.fhir.service.OrganizationFhirClientService;
-import nl.koppeltaal.poc.epd.utils.UrlUtils;
+import nl.koppeltaal.poc.utils.UrlUtils;
 import org.hl7.fhir.r4.model.Organization;
 import org.springframework.web.bind.annotation.*;
 

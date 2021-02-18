@@ -13,7 +13,7 @@ import nl.koppeltaal.poc.epd.exception.EnitityNotFoundException;
 import nl.koppeltaal.poc.fhir.dto.PractitionerDto;
 import nl.koppeltaal.poc.fhir.dto.PractitionerDtoConverter;
 import nl.koppeltaal.poc.fhir.service.PractitionerFhirClientService;
-import nl.koppeltaal.poc.epd.utils.UrlUtils;
+import nl.koppeltaal.poc.utils.UrlUtils;
 import org.hl7.fhir.r4.model.Practitioner;
 import org.springframework.web.bind.annotation.*;
 
