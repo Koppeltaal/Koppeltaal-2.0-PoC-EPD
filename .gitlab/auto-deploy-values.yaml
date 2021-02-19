@@ -1,5 +1,7 @@
 livenessProbe:
   path: "/health"
+  initialDelaySeconds: 60
 
 readinessProbe:
   path: "/health"
+  initialDelaySeconds: 60
