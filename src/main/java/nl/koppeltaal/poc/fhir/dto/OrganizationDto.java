@@ -11,7 +11,7 @@ package nl.koppeltaal.poc.fhir.dto;
 /**
  *
  */
-public class OrganizationDto extends BaseDto {
+public class OrganizationDto extends BaseIdentifierDto {
 	String email;
 	String phone;
 	String addressLines;

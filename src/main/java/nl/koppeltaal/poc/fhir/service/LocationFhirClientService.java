@@ -10,29 +10,24 @@ package nl.koppeltaal.poc.fhir.service;
 
 import ca.uhn.fhir.context.FhirContext;
 import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
-import nl.koppeltaal.poc.fhir.dto.PractitionerDto;
-import nl.koppeltaal.poc.fhir.dto.PractitionerDtoConverter;
+import nl.koppeltaal.poc.fhir.dto.LocationDto;
+import nl.koppeltaal.poc.fhir.dto.LocationDtoConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Identifier;
-import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.Location;
 import org.springframework.stereotype.Service;
 
 /**
  *
  */
 @Service
-public class PractitionerFhirClientService extends BaseFhirClientService<PractitionerDto, Practitioner> {
+public class LocationFhirClientService extends BaseFhirClientService<LocationDto, Location> {
 
-	public PractitionerFhirClientService(FhirClientConfiguration fhirClientConfiguration, Oauth2ClientService oauth2ClientService, FhirContext fhirContext, PractitionerDtoConverter dtoConverter) {
-		super(fhirClientConfiguration, oauth2ClientService, fhirContext, dtoConverter);
+	public LocationFhirClientService(FhirClientConfiguration fhirClientConfiguration, Oauth2ClientService oauth2ClientService, FhirContext fhirContext, LocationDtoConverter locationDtoConverter) {
+		super(fhirClientConfiguration, oauth2ClientService, fhirContext, locationDtoConverter);
 	}
 
-	@Override
-	protected String getDefaultSystem() {
-		return "IRMA";
-	}
-
-	protected String getIdentifier(String system, Practitioner resource) {
+	protected String getIdentifier(String system, Location resource) {
 		for (Identifier identifier : resource.getIdentifier()) {
 			if (StringUtils.equals(identifier.getSystem(), system)) {
 				return identifier.getValue();
@@ -43,8 +38,11 @@ public class PractitionerFhirClientService extends BaseFhirClientService<Practit
 
 	@Override
 	protected String getResourceName() {
-		return "Practitioner";
+		return "Location";
 	}
 
+	protected String getDefaultSystem() {
+		return "urn:ietf:rfc:3986";
+	}
 
 }

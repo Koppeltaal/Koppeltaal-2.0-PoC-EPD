@@ -9,7 +9,7 @@
 package nl.koppeltaal.poc.epd.controllers;
 
 import com.auth0.jwk.JwkException;
-import nl.koppeltaal.poc.epd.exception.EnitityNotFoundException;
+import nl.koppeltaal.poc.fhir.exception.EnitityNotFoundException;
 import nl.koppeltaal.poc.fhir.dto.PractitionerDto;
 import nl.koppeltaal.poc.fhir.dto.PractitionerDtoConverter;
 import nl.koppeltaal.poc.fhir.service.PractitionerFhirClientService;
@@ -59,9 +59,24 @@ public class PractitionerController {
 		fhirClientService.deleteResource(new SessionTokenStorage(httpSession), id);
 	}
 
+	@RequestMapping(value = "Practitioner/{id}", method = RequestMethod.DELETE)
+	public void deletebyReference(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
+		fhirClientService.deleteResourceByReference(new SessionTokenStorage(httpSession), id);
+	}
+
+
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public PractitionerDto get(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
-		Practitioner practitioner = fhirClientService.getResource(new SessionTokenStorage(httpSession), id);
+		Practitioner practitioner = fhirClientService.getResourceByIdentifier(new SessionTokenStorage(httpSession), id);
+		if (practitioner != null) {
+			return dtoConverter.convert(practitioner);
+		} else {
+			throw new EnitityNotFoundException("Cannot locate practitioner " + id);
+		}
+	}
+	@RequestMapping(value = "Practitioner/{id}", method = RequestMethod.GET)
+	public PractitionerDto getByReference(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
+		Practitioner practitioner = fhirClientService.getResourceById(new SessionTokenStorage(httpSession), id);
 		if (practitioner != null) {
 			return dtoConverter.convert(practitioner);
 		} else {

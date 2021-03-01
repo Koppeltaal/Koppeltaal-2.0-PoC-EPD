@@ -41,5 +41,8 @@ public class OrganizationFhirClientService extends BaseFhirClientService<Organiz
 		return "Organization";
 	}
 
+	protected String getDefaultSystem() {
+		return "http://fhir.nl/fhir/NamingSystem/agb-z";
+	}
 
 }

@@ -72,7 +72,7 @@ public class PatientDtoConverter implements DtoConverter<PatientDto, Patient> {
 	}
 
 	public void applyResource(PatientDto patientDto, Patient patient) {
-		patientDto.setId(getRelativeReference(patient.getIdElement()));
+		patientDto.setReference(getRelativeReference(patient.getIdElement()));
 
 		List<Identifier> identifiers = patient.getIdentifier();
 		for (Identifier identifier : identifiers) {
@@ -134,10 +134,6 @@ public class PatientDtoConverter implements DtoConverter<PatientDto, Patient> {
 
 		applyDto(patient, patientDto);
 		return patient;
-	}
-
-	private String getRelativeReference(IIdType idElement) {
-		return idElement.toUnqualifiedVersionless().getIdPart();
 	}
 
 }

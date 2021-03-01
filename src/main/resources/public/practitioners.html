@@ -32,6 +32,9 @@
             <li class="tab"><a href="patients.html">Patients</a></li>
             <li class="tab"><a href="practitioners.html" class="active">Practitioners</a></li>
             <li class="tab"><a href="organizations.html">Organization</a></li>
+            <li class="tab"><a href="activitydefinitions.html">Activity Definitions</a></li>
+            <li class="tab"><a href="locations.html">Locations</a></li>
+            <li class="tab"><a href="endpoints.html">Endpoints</a></li>
         </ul>
     </div>
 </nav>
@@ -149,8 +152,7 @@
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">date_range</i>
-                            <input class="datepicker" name="birthDate" id="birthDate" type="text"
-                                   class="validate">
+                            <input class="datepicker validate" name="birthDate" id="birthDate" type="text">
                             <label for="birthDate">Birthdate (dd-mm-yyyy)</label>
                         </div>
                     </div>
@@ -294,7 +296,7 @@
       .then(jsonResponseHandler)
       .then((organizations) => {
         for (let i in organizations) {
-          organization = organizations[i];
+          let organization = organizations[i];
           document.getElementById('organization').append(parseHtml('<option value="' + organization.identifierSystem + "|" + organization.identifierValue + '">' + organization.name + '</option>'))
         }
       })

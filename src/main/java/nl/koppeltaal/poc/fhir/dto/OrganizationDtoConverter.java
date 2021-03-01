@@ -72,7 +72,7 @@ public class OrganizationDtoConverter implements DtoConverter<OrganizationDto, O
 	}
 
 	public void applyResource(OrganizationDto organizationDto, Organization organization) {
-		organizationDto.setId(getRelativeReference(organization.getIdElement()));
+		organizationDto.setReference(getRelativeReference(organization.getIdElement()));
 
 		List<Identifier> identifiers = organization.getIdentifier();
 		for (Identifier identifier : identifiers) {
@@ -133,9 +133,5 @@ public class OrganizationDtoConverter implements DtoConverter<OrganizationDto, O
 		return organization;
 	}
 
-
-	private String getRelativeReference(IIdType idElement) {
-		return idElement.toUnqualifiedVersionless().getIdPart();
-	}
 
 }

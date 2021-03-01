@@ -9,11 +9,13 @@
 package nl.koppeltaal.poc.epd.controllers;
 
 import com.auth0.jwk.JwkException;
-import nl.koppeltaal.poc.epd.exception.EnitityNotFoundException;
+import nl.koppeltaal.poc.fhir.dto.OrganizationDto;
+import nl.koppeltaal.poc.fhir.exception.EnitityNotFoundException;
 import nl.koppeltaal.poc.fhir.dto.OrganizationDto;
 import nl.koppeltaal.poc.fhir.dto.OrganizationDtoConverter;
 import nl.koppeltaal.poc.fhir.service.OrganizationFhirClientService;
 import nl.koppeltaal.poc.utils.UrlUtils;
+import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Organization;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,13 +61,29 @@ public class OrganizationsController {
 		fhirClientService.deleteResource(new SessionTokenStorage(httpSession), id);
 	}
 
+	@RequestMapping(value = "Organization/{id}", method = RequestMethod.DELETE)
+	public void deletebyReference(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
+		fhirClientService.deleteResourceByReference(new SessionTokenStorage(httpSession), id);
+	}
+
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public OrganizationDto get(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
-		Organization organization = fhirClientService.getResource(new SessionTokenStorage(httpSession), id);
+		Organization organization = fhirClientService.getResourceByIdentifier(new SessionTokenStorage(httpSession), id);
 		if (organization != null) {
 			return dtoConverter.convert(organization);
 		} else {
 			throw new EnitityNotFoundException("Cannot locate organization " + id);
 		}
 	}
+
+	@RequestMapping(value = "/Organization/{id}", method = RequestMethod.GET)
+	public OrganizationDto getByReference(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
+		Organization organization = fhirClientService.getResourceById(new SessionTokenStorage(httpSession), id);
+		if (organization != null) {
+			return dtoConverter.convert(organization);
+		} else {
+			throw new EnitityNotFoundException("Cannot locate organization " + id);
+		}
+	}
+
 }

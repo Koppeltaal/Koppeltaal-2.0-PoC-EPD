@@ -40,6 +40,9 @@ public class PatientFhirClientService extends BaseFhirClientService<PatientDto, 
 	protected String getResourceName() {
 		return "Patient";
 	}
+	protected String getDefaultSystem() {
+		return "IRMA";
+	}
 
 
 }

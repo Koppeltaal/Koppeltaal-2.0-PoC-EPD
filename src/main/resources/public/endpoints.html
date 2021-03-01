@@ -31,17 +31,17 @@
             <li class="tab"><a href="index.html">Main</a></li>
             <li class="tab"><a href="patients.html">Patients</a></li>
             <li class="tab"><a href="practitioners.html">Practitioners</a></li>
-            <li class="tab"><a href="organizations.html" class="active">Organization</a></li>
+            <li class="tab"><a href="organizations.html">Organization</a></li>
             <li class="tab"><a href="activitydefinitions.html">Activity Definitions</a></li>
             <li class="tab"><a href="locations.html">Locations</a></li>
-            <li class="tab"><a href="endpoints.html">Endpoints</a></li>
+            <li class="tab"><a href="endpoints.html" class="active">Endpoints</a></li>
         </ul>
     </div>
 </nav>
-<div class="container content-tab organizations">
+<div class="container content-tab endpoints">
     <div class="row">
         <div class="col s12">
-            <h1>Organizations</h1>
+            <h1>Endpoints</h1>
         </div>
     </div>
     <div class="row">
@@ -49,9 +49,8 @@
             <table class="data">
                 <thead>
                 <tr>
-                    <th>Identifier</th>
                     <th>Name</th>
-                    <th>Contact info</th>
+                    <th>Address</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -62,76 +61,39 @@
         </div>
     </div>
     <div class="row">
-        <form action="/api/organizations" data-tab="organizations" class="col s12">
+        <form action="/api/endpoints" data-tab="endpoints" class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <span class="card-title">Add a organization</span>
+                    <span class="card-title">Add a endpoint</span>
 
+                    <input name="reference" id="reference" type="hidden"/>
                     <input name="active" id="active" type="hidden" value="true"/>
                     <div class="row">
                         <div class="input-field col s6">
-                            <i class="material-icons prefix">domain</i>
-                            <select id="identifierSystem" name="identifierSystem">
-                                <option value="http://fhir.nl/fhir/NamingSystem/agb-z">agb-z</option>
-                                <option value="http://fhir.nl/fhir/NamingSystem/ura">ura</option>
-                            </select>
-                            <label for="identifierSystem">Identifier system</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">portrait</i>
-                            <input placeholder="Identifier value" name="identifierValue" id="identifierValue"
-                                   type="text" class="validate">
-                            <label for="identifierValue">Identifier value</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12">
                             <i class="material-icons prefix">account_circle</i>
                             <input placeholder="Naam" name="name" id="name" type="text"
                                    class="validate">
                             <label for="name">Name</label>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="input-field col s6">
-                            <i class="material-icons prefix">contact_mail</i>
-                            <input placeholder="work@example.com" name="email" id="email" type="text"
-                                   class="validate">
-                            <label for="email">E-mail</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">contact_phone</i>
-                            <input placeholder="06-432311322" name="phone" id="phone" type="text"
-                                   class="validate">
-                            <label for="phone">Phone</label>
+                            <i class="material-icons prefix">perm_identity</i>
+                            <select id="status" name="status">
+                                <option value="active">active</option>
+                                <option value="suspended">suspended</option>
+                                <option value="error">error</option>
+                                <option value="off">off</option>
+                                <option value="enteredinerror">enteredinerror</option>
+                                <option value="test">test</option>
+                            </select>
+                            <label for="status">Status</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <i class="material-icons prefix">local_post_office</i>
-                            <textarea placeholder="Heilgeweg 26-28" name="addressLines" id="addressLines"
-                                      class="materialize-textarea"></textarea>
-                            <label for="addressLines">Address Lines</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s4">
-                            <i class="material-icons prefix">location_city</i>
-                            <input placeholder="Amsterdam" name="addressCity" id="addressCity" type="text"
+                            <i class="material-icons prefix">contact_mail</i>
+                            <input placeholder="work@example.com" name="address" id="address" type="text"
                                    class="validate">
-                            <label for="addressCity">City</label>
-                        </div>
-                        <div class="input-field col s4">
-                            <i class="material-icons prefix">code</i>
-                            <input placeholder="1012 XR" name="addressPostalCode" id="addressPostalCode" type="text"
-                                   class="validate">
-                            <label for="addressPostalCode">ZIP code</label>
-                        </div>
-                        <div class="input-field col s4">
-                            <i class="material-icons prefix">flag</i>
-                            <input placeholder="NL" name="addressCountry" id="addressCountry" type="text"
-                                   class="validate">
-                            <label for="addressCountry">Country</label>
+                            <label for="address">URL</label>
                         </div>
                     </div>
                 </div>
@@ -139,7 +101,7 @@
                     <button class="btn waves-effect waves-light" type="reset" name="action">Reset
                         <i class="material-icons left">clear</i>
                     </button>
-                    <button class="btn waves-effect waves-light" type="submit" name="action" disabled>Submit
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
                         <i class="material-icons right">send</i>
                     </button>
                 </div>
@@ -147,10 +109,10 @@
         </form>
     </div>
 </div>
-<div class="container content-tab organizations" style="display: none">
+<div class="container content-tab endpoints" style="display: none">
     <div class="row">
         <div class="col s12">
-            <h1>Organizations</h1>
+            <h1>Endpoints</h1>
         </div>
     </div>
 </div>
@@ -170,24 +132,22 @@
 
       return td;
     }
-    fetch('/api/organizations?t_=' + new Date().getTime())
+    fetch('/api/endpoints?t_=' + new Date().getTime())
       .then(jsonResponseHandler)
       .then((data) => {
-        const tdata = document.querySelector('div.organizations table.data tbody');
+        const tdata = document.querySelector('div.endpoints table.data tbody');
         tdata.innerHTML = '';
         for (var i in data) {
-          const organization = data[i];
+          const endpoint = data[i];
           const tr = document.createElement('tr');
-
-          tr.append(createTd(organization.identifierSystem, organization.identifierValue));
-          tr.append(createTd(organization.name, organization.nameFamily));
-          tr.append(createTd(organization.email, organization.phone));
+          tr.append(createTd(endpoint.name));
+          tr.append(createTd(endpoint.address));
           let td = document.createElement('td');
           let deleteAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">delete_forever</i>delete</a>')
-          deleteAction.setAttribute("data-id", organization.id)
+          deleteAction.setAttribute("data-reference", endpoint.reference)
           deleteAction.onclick = (e) => {
-            const id = e.target.getAttribute("data-id");
-            fetch('/api/organizations/' + id, {method: 'DELETE'}).then(() => {
+            const id = e.target.getAttribute("data-reference");
+            fetch('/api/endpoints/' + id, {method: 'DELETE'}).then(() => {
               render();
             });
             return false;
@@ -195,13 +155,14 @@
           td.append(deleteAction);
           td.append(' ');
           let editAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">edit</i>edit</a>')
-          editAction.setAttribute("data-id", organization.id)
-          editAction.setAttribute("data-identifierValue", organization.identifierValue)
+          editAction.setAttribute("data-reference", endpoint.reference)
+          editAction.setAttribute("data-identifierValue", endpoint.identifierValue)
           editAction.onclick = (e) => {
-            document.getElementById('identifierValue').value = e.target.getAttribute("data-identifierValue");
+            const reference = e.target.getAttribute("data-reference");
+            document.getElementById('reference').value = reference;
             var evt = document.createEvent("HTMLEvents");
             evt.initEvent("change", false, true);
-            document.getElementById('identifierValue').dispatchEvent(evt);
+            document.getElementById('reference').dispatchEvent(evt);
             return false;
           }
           td.append(editAction);
@@ -212,11 +173,11 @@
   }
 
   function registerFormInputListeners() {
-    document.getElementById('identifierValue').onchange = (e) => {
+    document.getElementById('reference').onchange = (e) => {
       let input = e.target;
       let value = input.value
       if (value) {
-        fetch('/api/organizations/' + value)
+        fetch('/api/endpoints/' + value)
           .then(jsonResponseHandler)
           .then((data) => {
             for (let key in data) {
@@ -236,9 +197,6 @@
             // ignore
             console.log(reason)
           })
-        document.querySelector("button[type='submit']").disabled = false;
-      } else {
-        document.querySelector("button[type='submit']").disabled = true;
       }
     }
   }

@@ -29,19 +29,19 @@
     <div class="nav-content purple lighten-3">
         <ul class="tabs tabs-transparent">
             <li class="tab"><a href="index.html">Main</a></li>
-            <li class="tab"><a href="patients.html" class="active">Patients</a></li>
+            <li class="tab"><a href="patients.html">Patients</a></li>
             <li class="tab"><a href="practitioners.html">Practitioners</a></li>
-            <li class="tab"><a href="organizations.html">Organization</a></li>
-            <li class="tab"><a href="activitydefinitions.html">Activity Definitions</a></li>
+            <li class="tab"><a href="organizations.html">Organizations</a></li>
+            <li class="tab"><a href="activitydefinitions.html" class="active">Activity Definitions</a></li>
             <li class="tab"><a href="locations.html">Locations</a></li>
-            <li class="tab"><a href="endpoints.html">Endpoints</a></li>
+            <li class="tab"><a href="endpoints.html" >Endpoints</a></li>
         </ul>
     </div>
 </nav>
-<div class="container content-tab patients">
+<div class="container content-tab activitydefinitions">
     <div class="row">
         <div class="col s12">
-            <h1>Patients</h1>
+            <h1>ActivityDefinitions</h1>
         </div>
     </div>
     <div class="row">
@@ -49,9 +49,8 @@
             <table class="data">
                 <thead>
                 <tr>
-                    <th>Identifier</th>
                     <th>Name</th>
-                    <th>E-mail</th>
+                    <th>Address</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -62,79 +61,61 @@
         </div>
     </div>
     <div class="row">
-        <form action="/api/patients" data-tab="patients" class="col s12">
+        <form action="/api/activitydefinitions" data-tab="activitydefinitions" class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <span class="card-title">Add a patient</span>
+                    <span class="card-title">Add a activitydefinition</span>
 
+                    <input name="reference" id="reference" type="hidden" />
                     <input name="active" id="active" type="hidden" value="true"/>
                     <div class="row">
                         <div class="input-field col s6">
-                            <i class="material-icons prefix">domain</i>
-                            <select id="identifierSystem" name="identifierSystem">
-                                <option value="IRMA">IRMA</option>
-                            </select>
-                            <label for="identifierSystem">Identifier system</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">portrait</i>
-                            <input placeholder="Identifier value" name="identifierValue" id="identifierValue"
-                                   type="text" class="validate">
-                            <label for="identifierValue">Identifier value</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s6">
                             <i class="material-icons prefix">account_circle</i>
-                            <input placeholder="Voornaam(en)" name="nameGiven" id="nameGiven" type="text"
+                            <input placeholder="Naam" name="name" id="name" type="text"
                                    class="validate">
-                            <label for="nameGiven">First Name</label>
+                            <label for="name">Name</label>
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">account_circle</i>
-                            <input placeholder="Achternaam" name="nameFamily" id="nameFamily" type="text"
+                            <input placeholder="Naam" title="title" id="title" type="text"
                                    class="validate">
-                            <label for="nameFamily">Last Name</label>
+                            <label for="title">Title</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">contact_mail</i>
-                            <input placeholder="work@example.com" name="workEmail" id="workEmail" type="text"
+                            <input placeholder="work@example.com" name="url" id="url" type="text"
                                    class="validate">
-                            <label for="workEmail">Work e-mail</label>
+                            <label for="url">URL</label>
                         </div>
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">email</i>
-                            <input placeholder="me@gmail.com" name="homeEmail" id="homeEmail" type="text"
-                                   class="validate">
-                            <label for="homeEmail">Home e-mail</label>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">perm_identity</i>
-                            <select id="gender" name="gender">
-                                <option value="unknown">Unknown</option>
-                                <option value="female">Female</option>
-                                <option value="male">Male</option>
-                                <option value="other">Other</option>
+                            <select id="status" name="status">
+                                <option value=""></option>
+                                <option value="active">active</option>
+                                <option value="retired">retired</option>
+                                <option value="retired">retired</option>
+                                <option value="unknown">unknown</option>
                             </select>
-                            <label for="gender">Gender</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">date_range</i>
-                            <input class="datepicker validate" name="birthDate" id="birthDate" type="text">
-                            <label for="birthDate">Birthdate (dd-mm-yyyy)</label>
+                            <label for="status">Status</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">business</i>
-                            <select id="organization" name="organization">
-                                <option value="">[NONE]</option>
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">local_post_office</i>
+                            <textarea placeholder="Heilgeweg 26-28" name="description" id="description"
+                                      class="materialize-textarea"></textarea>
+                            <label for="description">Description</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">perm_identity</i>
+                            <select id="location" name="location">
+                                <option value=""></option>
                             </select>
-                            <label for="organization">Organization</label>
+                            <label for="location">Location</label>
                         </div>
                     </div>
                 </div>
@@ -142,7 +123,7 @@
                     <button class="btn waves-effect waves-light" type="reset" name="action">Reset
                         <i class="material-icons left">clear</i>
                     </button>
-                    <button class="btn waves-effect waves-light" type="submit" name="action" disabled>Submit
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
                         <i class="material-icons right">send</i>
                     </button>
                 </div>
@@ -150,10 +131,10 @@
         </form>
     </div>
 </div>
-<div class="container content-tab practitioners" style="display: none">
+<div class="container content-tab activitydefinitions" style="display: none">
     <div class="row">
         <div class="col s12">
-            <h1>Practitioners</h1>
+            <h1>ActivityDefinitions</h1>
         </div>
     </div>
 </div>
@@ -173,24 +154,22 @@
 
       return td;
     }
-    fetch('/api/patients?t_=' + new Date().getTime())
+    fetch('/api/activitydefinitions?t_=' + new Date().getTime())
       .then(jsonResponseHandler)
       .then((data) => {
-        const tdata = document.querySelector('div.patients table.data tbody');
+        const tdata = document.querySelector('div.activitydefinitions table.data tbody');
         tdata.innerHTML = '';
         for (var i in data) {
-          const patient = data[i];
+          const activitydefinition = data[i];
           const tr = document.createElement('tr');
-
-          tr.append(createTd(patient.identifierSystem, patient.identifierValue));
-          tr.append(createTd(patient.nameGiven, patient.nameFamily));
-          tr.append(createTd(patient.homeEmail, patient.workEmail));
+          tr.append(createTd(activitydefinition.name));
+          tr.append(createTd(activitydefinition.address));
           let td = document.createElement('td');
           let deleteAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">delete_forever</i>delete</a>')
-          deleteAction.setAttribute("data-id", patient.id)
+          deleteAction.setAttribute("data-reference", activitydefinition.reference)
           deleteAction.onclick = (e) => {
-            const id = e.target.getAttribute("data-id");
-            fetch('/api/patients/' + id, {method: 'DELETE'}).then(() => {
+            const reference = e.target.getAttribute("data-reference");
+            fetch('/api/activitydefinitions/' + reference, {method: 'DELETE'}).then(() => {
               render();
             });
             return false;
@@ -198,14 +177,13 @@
           td.append(deleteAction);
           td.append(' ');
           let editAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">edit</i>edit</a>')
-          editAction.setAttribute("data-id", patient.id)
-          editAction.setAttribute("data-identifierValue", patient.identifierValue)
+          editAction.setAttribute("data-reference", activitydefinition.reference)
+          editAction.setAttribute("data-identifierValue", activitydefinition.identifierValue)
           editAction.onclick = (e) => {
-            const identifierValue = e.target.getAttribute("data-identifierValue");
-            document.getElementById('identifierValue').value = identifierValue;
+            document.getElementById('reference').value = e.target.getAttribute("data-reference");
             var evt = document.createEvent("HTMLEvents");
             evt.initEvent("change", false, true);
-            document.getElementById('identifierValue').dispatchEvent(evt);
+            document.getElementById('reference').dispatchEvent(evt);
             return false;
           }
           td.append(editAction);
@@ -216,29 +194,30 @@
   }
 
   function registerFormInputListeners() {
-    document.getElementById('identifierValue').onchange = (e) => {
+    document.getElementById('reference').onchange = (e) => {
       let input = e.target;
       let value = input.value
       if (value) {
-        fetch('/api/patients/' + value)
+        fetch('/api/activitydefinitions/' + value)
           .then(jsonResponseHandler)
           .then((data) => {
             for (let key in data) {
               let value = data[key];
               let element = document.getElementById(key);
               if (element) {
-                element.value = readValue(value, key);
+                if (element.nodeName === 'TEXTAREA') {
+                  element.textContent = readValue(value, key);
+                } else {
+                  element.value = readValue(value, key);
+                }
               }
             }
-
           })
           .then(updateForm)
           .catch(reason => {
             // ignore
+            console.log(reason)
           })
-        document.querySelector("button[type='submit']").disabled = false;
-      } else {
-        document.querySelector("button[type='submit']").disabled = true;
       }
     }
   }
@@ -260,12 +239,12 @@
           }
         }
       });
-    fetch('/api/organizations')
+    fetch('/api/locations')
       .then(jsonResponseHandler)
-      .then((organizations) => {
-        for (let i in organizations) {
-          let organization = organizations[i];
-          document.getElementById('organization').append(parseHtml('<option value="' + organization.identifierSystem + "|" + organization.identifierValue + '">' + organization.name + '</option>'))
+      .then((locations) => {
+        for (let i in locations) {
+          let location = locations[i];
+          document.getElementById('location').append(parseHtml('<option value="' + location.address + '">' + location.address + '</option>'))
         }
       })
       .then(updateForm);

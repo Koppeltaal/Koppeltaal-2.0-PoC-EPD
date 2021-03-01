@@ -11,25 +11,10 @@ package nl.koppeltaal.poc.fhir.dto;
 /**
  *
  */
-public class PatientDto extends PersonDto {
-	String workEmail;
-	String homeEmail;
-
-	public String getHomeEmail() {
-		return homeEmail;
-	}
-
-	public void setHomeEmail(String homeEmail) {
-		this.homeEmail = homeEmail;
-	}
-
-	public String getReference() {
-		return reference;
-	}
-
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
+public class BaseIdentifierDto extends BaseDto {
+	String identifierValue;
+	String identifierSystem;
+	boolean active;
 
 	public String getIdentifierSystem() {
 		return identifierSystem;
@@ -47,14 +32,6 @@ public class PatientDto extends PersonDto {
 		this.identifierValue = identifierValue;
 	}
 
-	public String getWorkEmail() {
-		return workEmail;
-	}
-
-	public void setWorkEmail(String workEmail) {
-		this.workEmail = workEmail;
-	}
-
 	public boolean isActive() {
 		return active;
 	}
@@ -62,4 +39,5 @@ public class PatientDto extends PersonDto {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+
 }

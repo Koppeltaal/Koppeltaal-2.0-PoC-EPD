@@ -94,7 +94,7 @@ public class PractitionerDtoConverter implements DtoConverter<PractitionerDto, P
 
 	public void applyResource(PractitionerDto practitionerDto, Practitioner practitioner) {
 
-		practitionerDto.setId(getRelativeReference(practitioner.getIdElement()));
+		practitionerDto.setReference(getRelativeReference(practitioner.getIdElement()));
 
 		List<Identifier> identifiers = practitioner.getIdentifier();
 		for (Identifier identifier : identifiers) {
@@ -169,10 +169,5 @@ public class PractitionerDtoConverter implements DtoConverter<PractitionerDto, P
 		applyDto(practitioner, practitionerDto);
 		return practitioner;
 	}
-
-	private String getRelativeReference(IIdType idElement) {
-		return idElement.toUnqualifiedVersionless().getIdPart();
-	}
-
 
 }

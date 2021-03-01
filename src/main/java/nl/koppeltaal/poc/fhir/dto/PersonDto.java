@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  *
  */
-public class PersonDto extends BaseDto {
+public class PersonDto extends BaseIdentifierDto {
 	String nameFamily;
 	String nameGiven;
 	String gender;

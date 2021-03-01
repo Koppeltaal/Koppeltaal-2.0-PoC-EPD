@@ -9,11 +9,13 @@
 package nl.koppeltaal.poc.epd.controllers;
 
 import com.auth0.jwk.JwkException;
-import nl.koppeltaal.poc.epd.exception.EnitityNotFoundException;
+import nl.koppeltaal.poc.fhir.dto.PatientDto;
+import nl.koppeltaal.poc.fhir.exception.EnitityNotFoundException;
 import nl.koppeltaal.poc.fhir.dto.PatientDtoConverter;
 import nl.koppeltaal.poc.fhir.dto.PatientDto;
 import nl.koppeltaal.poc.fhir.service.PatientFhirClientService;
 import nl.koppeltaal.poc.utils.UrlUtils;
+import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Patient;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,13 +61,31 @@ public class PatientsController {
 		fhirClientService.deleteResource(new SessionTokenStorage(httpSession), id);
 	}
 
+	@RequestMapping(value = "Patient/{id}", method = RequestMethod.DELETE)
+	public void deletebyReference(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
+		fhirClientService.deleteResourceByReference(new SessionTokenStorage(httpSession), id);
+	}
+
+
+
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public PatientDto get(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
-		Patient patient = fhirClientService.getResource(new SessionTokenStorage(httpSession), id);
+		Patient patient = fhirClientService.getResourceByIdentifier(new SessionTokenStorage(httpSession), id);
 		if (patient != null) {
 			return dtoConverter.convert(patient);
 		} else {
 			throw new EnitityNotFoundException("Cannot locate patient " + id);
 		}
 	}
+
+	@RequestMapping(value = "/Patient/{id}", method = RequestMethod.GET)
+	public PatientDto getByReference(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
+		Patient patient = fhirClientService.getResourceById(new SessionTokenStorage(httpSession), id);
+		if (patient != null) {
+			return dtoConverter.convert(patient);
+		} else {
+			throw new EnitityNotFoundException("Cannot locate patient " + id);
+		}
+	}
+
 }

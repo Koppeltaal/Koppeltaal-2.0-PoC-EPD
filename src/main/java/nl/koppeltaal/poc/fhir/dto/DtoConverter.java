@@ -9,6 +9,7 @@
 package nl.koppeltaal.poc.fhir.dto;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
 
 import java.util.Arrays;
@@ -18,10 +19,10 @@ import java.util.List;
  *
  */
 public interface DtoConverter<D extends BaseDto, R extends DomainResource> {
-	public void applyDto(R resource, D dto);
+	void applyDto(R resource, D dto);
 
-	public D convert(R resource);
-	public R convert(D dto);
+	D convert(R resource);
+	R convert(D dto);
 
 	default void addTelecom(ContactPoint contactPoint, String homeEmail, ContactPoint.ContactPointUse use, ContactPoint.ContactPointSystem system) {
 		setTelecom(homeEmail, use, system, contactPoint);
@@ -63,6 +64,10 @@ public interface DtoConverter<D extends BaseDto, R extends DomainResource> {
 
 	default List<String> unjoinAdressLine(String addressLines) {
 		return Arrays.asList(StringUtils.split(addressLines, "\n"));
+	}
+
+	default String getRelativeReference(IIdType idElement) {
+		return idElement.getResourceType()  +"/" + idElement.toUnqualifiedVersionless().getIdPart();
 	}
 
 }
