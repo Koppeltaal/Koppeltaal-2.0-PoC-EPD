@@ -75,7 +75,7 @@ public class EndpointsController {
 	}
 	@RequestMapping(value = "/Endpoint/{id}", method = RequestMethod.GET)
 	public EndpointDto getByReference(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
-		Endpoint endpoint = fhirClientService.getResourceById(new SessionTokenStorage(httpSession), id);
+		Endpoint endpoint = fhirClientService.getResourceByReference(new SessionTokenStorage(httpSession), id);
 		if (endpoint != null) {
 			return dtoConverter.convert(endpoint);
 		} else {

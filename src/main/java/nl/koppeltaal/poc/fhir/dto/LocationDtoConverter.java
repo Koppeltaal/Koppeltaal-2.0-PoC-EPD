@@ -9,8 +9,6 @@
 package nl.koppeltaal.poc.fhir.dto;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hl7.fhir.instance.model.api.IIdType;
-import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Location;
 import org.hl7.fhir.r4.model.Reference;
 import org.springframework.stereotype.Component;
@@ -24,14 +22,11 @@ import java.util.List;
 public class LocationDtoConverter implements DtoConverter<LocationDto, Location> {
 
 	public void applyDto(Location location, LocationDto locationDto) {
+		setId(location, locationDto);
+		location.getIdentifier().clear();
 		location.getEndpoint().clear();
-		Reference reference = new Reference();
+		Reference reference = new Reference(locationDto.getEndpoint());
 		reference.setType("Endpoint");
-		Identifier identifer = new Identifier();
-		identifer.setSystem("urn:ietf:rfc:3986");
-		identifer.setUse(Identifier.IdentifierUse.OFFICIAL);
-		identifer.setValue(locationDto.getAddress());
-		reference.setIdentifier(identifer);
 		location.addEndpoint(reference);
 	}
 
@@ -40,13 +35,9 @@ public class LocationDtoConverter implements DtoConverter<LocationDto, Location>
 		List<Reference> endpoint = location.getEndpoint();
 		for (Reference reference : endpoint) {
 			if (StringUtils.equals("Endpoint", reference.getType())) {
-				Identifier identifier = reference.getIdentifier();
-				if (identifier != null && StringUtils.equals("urn:ietf:rfc:3986", identifier.getSystem())){
-					locationDto.setAddress(identifier.getValue());
-					break;
-				}
+				locationDto.setEndpoint(reference.getReference());
+				break;
 			}
-
 		}
 	}
 

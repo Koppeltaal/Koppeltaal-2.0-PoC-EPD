@@ -17,14 +17,11 @@ import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import com.auth0.jwk.JwkException;
 import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.fhir.dto.BaseDto;
-import nl.koppeltaal.poc.fhir.dto.BaseIdentifierDto;
 import nl.koppeltaal.poc.fhir.dto.DtoConverter;
 import nl.koppeltaal.poc.generic.TokenStorage;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
-import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.DomainResource;
-import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,15 +50,15 @@ public abstract class BaseFhirClientService<D extends BaseDto, R extends DomainR
 	}
 
 	public void deleteResourceByReference(TokenStorage sessionTokenStorage, String id) throws IOException, JwkException {
-		R resource = getResourceById(sessionTokenStorage, id);
+		R resource = getResourceByReference(sessionTokenStorage, id);
 		if (resource != null) {
 			IBaseOperationOutcome outcome = getFhirClient(sessionTokenStorage).delete().resource(resource).execute();
 			System.out.println(outcome);
 		}
 	}
 
-	public R getResourceById(TokenStorage tokenStorage, String id) throws IOException, JwkException {
-		return (R) getFhirClient(tokenStorage).read().resource(getResourceName()).withId(id).execute();
+	public R getResourceByReference(TokenStorage tokenStorage, String reference) throws IOException, JwkException {
+		return (R) getFhirClient(tokenStorage).read().resource(getResourceName()).withId(reference).execute();
 	}
 
 	public R getResourceByIdentifier(TokenStorage tokenStorage, String identifierValue) throws IOException, JwkException {
@@ -80,15 +77,21 @@ public abstract class BaseFhirClientService<D extends BaseDto, R extends DomainR
 
 	public R storeResource(TokenStorage tokenStorage, String source, R resource) throws IOException, JwkException {
 		String identifier = getIdentifier(getDefaultSystem(), resource);
-		if (StringUtils.isNotEmpty(identifier)) {
-			R otherPractitioner = getResourceByIdentifier(tokenStorage, identifier, getDefaultSystem());
-			if (otherPractitioner != null) {
-				dtoConverter.applyDto(otherPractitioner, dtoConverter.convert(resource));
-				getFhirClient(tokenStorage).update().resource(otherPractitioner).execute();
-				return otherPractitioner;
-			}
-
+		String id = getId(resource);
+		R res = null;
+		if (StringUtils.isNotEmpty(id)) {
+			res = getResourceByReference(tokenStorage, id);
+		} else if (StringUtils.isNotEmpty(identifier)) {
+			res = getResourceByIdentifier(tokenStorage, identifier, getDefaultSystem());
 		}
+
+
+		if (res != null) {
+			dtoConverter.applyDto(res, dtoConverter.convert(resource));
+			MethodOutcome execute = getFhirClient(tokenStorage).update().resource(res).execute();
+			return (R) execute.getResource();
+		}
+
 		updateMetaElement(source, resource);
 		MethodOutcome execute = getFhirClient(tokenStorage).create().resource(resource).execute();
 		return (R) execute.getResource();
@@ -105,6 +108,14 @@ public abstract class BaseFhirClientService<D extends BaseDto, R extends DomainR
 		return iGenericClient;
 
 
+	}
+
+	private String getId(R resource) {
+		IdType idElement = resource.getIdElement();
+		if (!idElement.isEmpty()) {
+			return idElement.getIdPart();
+		}
+		return null;
 	}
 
 	protected abstract String getIdentifier(String system, R resource);

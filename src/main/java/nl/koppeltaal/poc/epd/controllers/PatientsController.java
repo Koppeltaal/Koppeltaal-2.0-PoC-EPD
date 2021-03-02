@@ -12,10 +12,8 @@ import com.auth0.jwk.JwkException;
 import nl.koppeltaal.poc.fhir.dto.PatientDto;
 import nl.koppeltaal.poc.fhir.exception.EnitityNotFoundException;
 import nl.koppeltaal.poc.fhir.dto.PatientDtoConverter;
-import nl.koppeltaal.poc.fhir.dto.PatientDto;
 import nl.koppeltaal.poc.fhir.service.PatientFhirClientService;
 import nl.koppeltaal.poc.utils.UrlUtils;
-import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Patient;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,7 +78,7 @@ public class PatientsController {
 
 	@RequestMapping(value = "/Patient/{id}", method = RequestMethod.GET)
 	public PatientDto getByReference(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
-		Patient patient = fhirClientService.getResourceById(new SessionTokenStorage(httpSession), id);
+		Patient patient = fhirClientService.getResourceByReference(new SessionTokenStorage(httpSession), id);
 		if (patient != null) {
 			return dtoConverter.convert(patient);
 		} else {

@@ -23,6 +23,7 @@ import java.util.List;
 public class PractitionerDtoConverter implements DtoConverter<PractitionerDto, Practitioner> {
 
 	public void applyDto(Practitioner practitioner, PractitionerDto practitionerDto) {
+		setId(practitioner, practitionerDto);
 		practitioner.addIdentifier(createIdentifier(practitionerDto.getIdentifierSystem(), practitionerDto.getIdentifierValue()));
 
 		practitioner.setActive(practitionerDto.isActive());

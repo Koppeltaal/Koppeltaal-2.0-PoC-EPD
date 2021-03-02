@@ -78,6 +78,7 @@
                         <div class="input-field col s6">
                             <i class="material-icons prefix">perm_identity</i>
                             <select id="status" name="status">
+                                <option value=""></option>
                                 <option value="active">active</option>
                                 <option value="suspended">suspended</option>
                                 <option value="error">error</option>
@@ -98,7 +99,7 @@
                     </div>
                 </div>
                 <div class="card-action">
-                    <button class="btn waves-effect waves-light" type="reset" name="action">Reset
+                    <button class="btn waves-effect waves-light" type="button" onclick="clearForm(this)" name="action">Reset
                         <i class="material-icons left">clear</i>
                     </button>
                     <button class="btn waves-effect waves-light" type="submit" name="action">Submit

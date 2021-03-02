@@ -10,12 +10,10 @@ package nl.koppeltaal.poc.epd.controllers;
 
 import com.auth0.jwk.JwkException;
 import nl.koppeltaal.poc.fhir.dto.LocationDto;
-import nl.koppeltaal.poc.fhir.dto.LocationDto;
 import nl.koppeltaal.poc.fhir.dto.LocationDtoConverter;
 import nl.koppeltaal.poc.fhir.exception.EnitityNotFoundException;
 import nl.koppeltaal.poc.fhir.service.LocationFhirClientService;
 import nl.koppeltaal.poc.utils.UrlUtils;
-import org.hl7.fhir.r4.model.Location;
 import org.hl7.fhir.r4.model.Location;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,7 +66,7 @@ public class LocationsController {
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public LocationDto get(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
-		Location location = fhirClientService.getResourceById(new SessionTokenStorage(httpSession), id);
+		Location location = fhirClientService.getResourceByReference(new SessionTokenStorage(httpSession), id);
 		if (location != null) {
 			return dtoConverter.convert(location);
 		} else {
@@ -77,7 +75,7 @@ public class LocationsController {
 	}
 	@RequestMapping(value = "/Location/{id}", method = RequestMethod.GET)
 	public LocationDto getByReference(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
-		Location location = fhirClientService.getResourceById(new SessionTokenStorage(httpSession), id);
+		Location location = fhirClientService.getResourceByReference(new SessionTokenStorage(httpSession), id);
 		if (location != null) {
 			return dtoConverter.convert(location);
 		} else {

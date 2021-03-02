@@ -23,6 +23,7 @@ import java.util.List;
 public class PatientDtoConverter implements DtoConverter<PatientDto, Patient> {
 
 	public void applyDto(Patient patient, PatientDto patientDto) {
+		setId(patient, patientDto);
 		patient.addIdentifier(createIdentifier(patientDto.getIdentifierSystem(), patientDto.getIdentifierValue()));
 
 		patient.setActive(patientDto.isActive());

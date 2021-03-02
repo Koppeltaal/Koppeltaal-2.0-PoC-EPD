@@ -8,6 +8,7 @@
 
 package nl.koppeltaal.poc.fhir.dto;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ import java.util.List;
 public class ActivityDefinitionDtoConverter implements DtoConverter<ActivityDefinitionDto, ActivityDefinition> {
 
 	public void applyDto(ActivityDefinition activityDefinition, ActivityDefinitionDto activityDefinitionDto) {
+		setId(activityDefinition, activityDefinitionDto);
 		activityDefinition.addIdentifier(createIdentifier(activityDefinitionDto.getIdentifierSystem(), activityDefinitionDto.getIdentifierValue()));
 		activityDefinition.setName(activityDefinitionDto.getName());
 		activityDefinition.setTitle(activityDefinitionDto.getTitle());
@@ -30,7 +32,9 @@ public class ActivityDefinitionDtoConverter implements DtoConverter<ActivityDefi
 
 		activityDefinition.setKind(ActivityDefinition.ActivityDefinitionKind.fromCode(activityDefinitionDto.getKind()));
 
-		activityDefinition.setLocation(new Reference(activityDefinitionDto.getLocation()));
+		Reference value = new Reference(activityDefinitionDto.getLocation());
+		value.setType("ActivityDefinition");
+		activityDefinition.setLocation(value);
 	}
 
 

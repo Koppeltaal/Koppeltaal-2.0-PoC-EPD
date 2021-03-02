@@ -76,7 +76,7 @@ public class PractitionerController {
 	}
 	@RequestMapping(value = "Practitioner/{id}", method = RequestMethod.GET)
 	public PractitionerDto getByReference(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
-		Practitioner practitioner = fhirClientService.getResourceById(new SessionTokenStorage(httpSession), id);
+		Practitioner practitioner = fhirClientService.getResourceByReference(new SessionTokenStorage(httpSession), id);
 		if (practitioner != null) {
 			return dtoConverter.convert(practitioner);
 		} else {

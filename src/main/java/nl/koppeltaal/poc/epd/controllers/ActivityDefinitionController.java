@@ -75,7 +75,7 @@ public class ActivityDefinitionController {
 	}
 	@RequestMapping(value = "/ActivityDefinition/{id}", method = RequestMethod.GET)
 	public ActivityDefinitionDto getByReference(HttpSession httpSession, @PathVariable String id) throws IOException, JwkException {
-		ActivityDefinition activitydefinition = fhirClientService.getResourceById(new SessionTokenStorage(httpSession), id);
+		ActivityDefinition activitydefinition = fhirClientService.getResourceByReference(new SessionTokenStorage(httpSession), id);
 		if (activitydefinition != null) {
 			return dtoConverter.convert(activitydefinition);
 		} else {
