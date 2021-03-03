@@ -61,7 +61,7 @@
         </div>
     </div>
     <div class="row">
-        <form action="/api/endpoints" data-tab="endpoints" class="col s12">
+        <form action="/api/Endpoint" data-tab="endpoints" class="col s12">
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Add a endpoint</span>
@@ -133,7 +133,7 @@
 
       return td;
     }
-    fetch('/api/endpoints?t_=' + new Date().getTime())
+    fetch('/api/Endpoint?t_=' + new Date().getTime())
       .then(jsonResponseHandler)
       .then((data) => {
         const tdata = document.querySelector('div.endpoints table.data tbody');
@@ -147,8 +147,8 @@
           let deleteAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">delete_forever</i>delete</a>')
           deleteAction.setAttribute("data-reference", endpoint.reference)
           deleteAction.onclick = (e) => {
-            const id = e.target.getAttribute("data-reference");
-            fetch('/api/endpoints/' + id, {method: 'DELETE'}).then(() => {
+            const reference = e.target.getAttribute("data-reference");
+            fetch('/api/' + reference, {method: 'DELETE'}).then(() => {
               render();
             });
             return false;
@@ -178,7 +178,7 @@
       let input = e.target;
       let value = input.value
       if (value) {
-        fetch('/api/endpoints/' + value)
+        fetch('/api/' + value)
           .then(jsonResponseHandler)
           .then((data) => {
             for (let key in data) {

@@ -60,7 +60,7 @@
         </div>
     </div>
     <div class="row">
-        <form action="/api/locations" data-tab="locations" class="col s12">
+        <form action="/api/Location" data-tab="locations" class="col s12">
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Add a location</span>
@@ -112,7 +112,7 @@
 
       return td;
     }
-    fetch('/api/locations?t_=' + new Date().getTime())
+    fetch('/api/Location?t_=' + new Date().getTime())
       .then(jsonResponseHandler)
       .then((data) => {
         const tdata = document.querySelector('div.locations table.data tbody');
@@ -127,7 +127,7 @@
           deleteAction.setAttribute("data-reference", location.reference)
           deleteAction.onclick = (e) => {
             const reference = e.target.getAttribute("data-reference");
-            fetch('/api/locations/' + reference, {method: 'DELETE'}).then(() => {
+            fetch('/api/' + reference, {method: 'DELETE'}).then(() => {
               render();
             });
             return false;
@@ -156,7 +156,7 @@
       let input = e.target;
       let value = input.value
       if (value) {
-        fetch('/api/locations/' + value)
+        fetch('/api/' + value)
           .then(jsonResponseHandler)
           .then((data) => {
             for (let key in data) {
@@ -197,7 +197,7 @@
           }
         }
       });
-    fetch('/api/endpoints')
+    fetch('/api/Endpoint')
       .then(jsonResponseHandler)
       .then((endpoints) => {
         for (let i in endpoints) {

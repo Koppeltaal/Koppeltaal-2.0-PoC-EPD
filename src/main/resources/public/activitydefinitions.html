@@ -61,7 +61,7 @@
         </div>
     </div>
     <div class="row">
-        <form action="/api/activitydefinitions" data-tab="activitydefinitions" class="col s12">
+        <form action="/api/ActivityDefinition" data-tab="activitydefinitions" class="col s12">
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Add a activitydefinition</span>
@@ -154,7 +154,7 @@
 
       return td;
     }
-    fetch('/api/activitydefinitions?t_=' + new Date().getTime())
+    fetch('/api/ActivityDefinition?t_=' + new Date().getTime())
       .then(jsonResponseHandler)
       .then((data) => {
         const tdata = document.querySelector('div.activitydefinitions table.data tbody');
@@ -169,7 +169,7 @@
           deleteAction.setAttribute("data-reference", activitydefinition.reference)
           deleteAction.onclick = (e) => {
             const reference = e.target.getAttribute("data-reference");
-            fetch('/api/activitydefinitions/' + reference, {method: 'DELETE'}).then(() => {
+            fetch('/api/' + reference, {method: 'DELETE'}).then(() => {
               render();
             });
             return false;
@@ -198,7 +198,7 @@
       let input = e.target;
       let value = input.value
       if (value) {
-        fetch('/api/activitydefinitions/' + value)
+        fetch('/api/' + value)
           .then(jsonResponseHandler)
           .then((data) => {
             for (let key in data) {
@@ -239,7 +239,7 @@
           }
         }
       });
-    fetch('/api/locations')
+    fetch('/api/Location')
       .then(jsonResponseHandler)
       .then((locations) => {
         for (let i in locations) {

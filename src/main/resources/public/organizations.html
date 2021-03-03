@@ -62,11 +62,12 @@
         </div>
     </div>
     <div class="row">
-        <form action="/api/organizations" data-tab="organizations" class="col s12">
+        <form action="/api/Organization" data-tab="organizations" class="col s12">
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Add a organization</span>
 
+                    <input name="reference" id="reference" type="hidden"/>
                     <input name="active" id="active" type="hidden" value="true"/>
                     <div class="row">
                         <div class="input-field col s6">
@@ -170,7 +171,7 @@
 
       return td;
     }
-    fetch('/api/organizations?t_=' + new Date().getTime())
+    fetch('/api/Organization?t_=' + new Date().getTime())
       .then(jsonResponseHandler)
       .then((data) => {
         const tdata = document.querySelector('div.organizations table.data tbody');
@@ -184,10 +185,10 @@
           tr.append(createTd(organization.email, organization.phone));
           let td = document.createElement('td');
           let deleteAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">delete_forever</i>delete</a>')
-          deleteAction.setAttribute("data-id", organization.id)
+          deleteAction.setAttribute("data-reference", organization.reference)
           deleteAction.onclick = (e) => {
-            const id = e.target.getAttribute("data-id");
-            fetch('/api/organizations/' + id, {method: 'DELETE'}).then(() => {
+            const reference = e.target.getAttribute("data-reference");
+            fetch('/api/' + reference, {method: 'DELETE'}).then(() => {
               render();
             });
             return false;
@@ -195,13 +196,13 @@
           td.append(deleteAction);
           td.append(' ');
           let editAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">edit</i>edit</a>')
-          editAction.setAttribute("data-id", organization.id)
+          editAction.setAttribute("data-reference", organization.reference)
           editAction.setAttribute("data-identifierValue", organization.identifierValue)
           editAction.onclick = (e) => {
-            document.getElementById('identifierValue').value = e.target.getAttribute("data-identifierValue");
+            document.getElementById('reference').value = e.target.getAttribute("data-reference");
             var evt = document.createEvent("HTMLEvents");
             evt.initEvent("change", false, true);
-            document.getElementById('identifierValue').dispatchEvent(evt);
+            document.getElementById('reference').dispatchEvent(evt);
             return false;
           }
           td.append(editAction);
@@ -216,7 +217,7 @@
       let input = e.target;
       let value = input.value
       if (value) {
-        fetch('/api/organizations/' + value)
+        fetch('/api/' + value)
           .then(jsonResponseHandler)
           .then((data) => {
             for (let key in data) {

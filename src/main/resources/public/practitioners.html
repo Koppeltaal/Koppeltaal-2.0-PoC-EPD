@@ -62,11 +62,12 @@
         </div>
     </div>
     <div class="row">
-        <form action="/api/practitioners" data-tab="practitioners" class="col s12">
+        <form action="/api/Practitioner" data-tab="practitioners" class="col s12">
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Add a practitioner</span>
 
+                    <input name="reference" id="reference" type="hidden"/>
                     <input name="active" id="active" type="hidden" value="true"/>
                     <div class="row">
                         <div class="input-field col s6">
@@ -170,7 +171,7 @@
                     <button class="btn waves-effect waves-light" type="reset" name="action">Reset
                         <i class="material-icons left">clear</i>
                     </button>
-                    <button class="btn waves-effect waves-light" type="submit" name="action" disabled>Submit
+                    <button class="btn waves-effect waves-light" type="submit" name="action" >Submit
                         <i class="material-icons right">send</i>
                     </button>
                 </div>
@@ -201,7 +202,7 @@
 
       return td;
     }
-    fetch('/api/practitioners?t_=' + new Date().getTime())
+    fetch('/api/Practitioner?t_=' + new Date().getTime())
       .then(jsonResponseHandler)
       .then((data) => {
         const tdata = document.querySelector('div.practitioners table.data tbody');
@@ -215,10 +216,10 @@
           tr.append(createTd(practitioner.email, practitioner.phone));
           let td = document.createElement('td');
           let deleteAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">delete_forever</i>delete</a>')
-          deleteAction.setAttribute("data-id", practitioner.id)
+          deleteAction.setAttribute("data-reference", practitioner.reference)
           deleteAction.onclick = (e) => {
-            const id = e.target.getAttribute("data-id");
-            fetch('/api/practitioners/' + id, {method: 'DELETE'}).then(() => {
+            const reference = e.target.getAttribute("data-reference");
+            fetch('/api/' + reference, {method: 'DELETE'}).then(() => {
               render();
             });
             return false;
@@ -226,14 +227,13 @@
           td.append(deleteAction);
           td.append(' ');
           let editAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">edit</i>edit</a>')
-          editAction.setAttribute("data-id", practitioner.id)
-          editAction.setAttribute("data-identifierValue", practitioner.identifierValue)
+          editAction.setAttribute("data-reference", practitioner.reference)
           editAction.onclick = (e) => {
-            const identifierValue = e.target.getAttribute("data-identifierValue");
-            document.getElementById('identifierValue').value = identifierValue;
+            const reference = e.target.getAttribute("data-reference");
+            document.getElementById('reference').value = reference;
             var evt = document.createEvent("HTMLEvents");
             evt.initEvent("change", false, true);
-            document.getElementById('identifierValue').dispatchEvent(evt);
+            document.getElementById('reference').dispatchEvent(evt);
             return false;
           }
           td.append(editAction);
@@ -244,11 +244,11 @@
   }
 
   function registerFormInputListeners() {
-    document.getElementById('identifierValue').onchange = (e) => {
+    document.getElementById('reference').onchange = (e) => {
       let input = e.target;
       let value = input.value
       if (value) {
-        fetch('/api/practitioners/' + value)
+        fetch('/api/' + value)
           .then(jsonResponseHandler)
           .then((data) => {
             for (let key in data) {
@@ -268,9 +268,6 @@
             // ignore
             console.log(reason)
           })
-        document.querySelector("button[type='submit']").disabled = false;
-      } else {
-        document.querySelector("button[type='submit']").disabled = true;
       }
     }
   }
@@ -292,7 +289,7 @@
           }
         }
       });
-    fetch('/api/organizations')
+    fetch('/api/Organization')
       .then(jsonResponseHandler)
       .then((organizations) => {
         for (let i in organizations) {
