@@ -15,6 +15,8 @@ import org.hl7.fhir.r4.model.Endpoint;
 import org.hl7.fhir.r4.model.IdType;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+
 /**
  *
  */
@@ -23,7 +25,7 @@ public class EndpointDtoConverter implements DtoConverter<EndpointDto, Endpoint>
 
 	public void applyDto(Endpoint endpoint, EndpointDto endpointDto) {
 		setId(endpoint, endpointDto);
-		endpoint.addIdentifier(createIdentifier("urn:ietf:rfc:3986", endpointDto.getAddress()));
+		endpoint.setIdentifier(Collections.singletonList(createIdentifier("urn:ietf:rfc:3986", endpointDto.getAddress())));
 		// TODO: implement the rest
 		endpoint.setAddress(endpointDto.getAddress());
 		endpoint.setName(endpointDto.getName());

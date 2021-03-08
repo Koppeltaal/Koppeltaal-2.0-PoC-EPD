@@ -13,8 +13,7 @@ import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -24,7 +23,7 @@ public class PractitionerDtoConverter implements DtoConverter<PractitionerDto, P
 
 	public void applyDto(Practitioner practitioner, PractitionerDto practitionerDto) {
 		setId(practitioner, practitionerDto);
-		practitioner.addIdentifier(createIdentifier(practitionerDto.getIdentifierSystem(), practitionerDto.getIdentifierValue()));
+		practitioner.setIdentifier(Collections.singletonList(createIdentifier(practitionerDto.getIdentifierSystem(), practitionerDto.getIdentifierValue())));
 
 		practitioner.setActive(practitionerDto.isActive());
 
