@@ -1,7 +1,5 @@
 package nl.koppeltaal.poc.generic;
 
-import nl.koppeltaal.poc.fhir.service.Oauth2ClientService;
-
 /**
  *
  */
