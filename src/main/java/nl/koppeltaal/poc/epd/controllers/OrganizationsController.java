@@ -8,20 +8,12 @@
 
 package nl.koppeltaal.poc.epd.controllers;
 
-import com.auth0.jwk.JwkException;
 import nl.koppeltaal.poc.fhir.dto.OrganizationDto;
-import nl.koppeltaal.poc.fhir.exception.EnitityNotFoundException;
 import nl.koppeltaal.poc.fhir.dto.OrganizationDtoConverter;
 import nl.koppeltaal.poc.fhir.service.OrganizationFhirClientService;
-import nl.koppeltaal.poc.utils.UrlUtils;
 import org.hl7.fhir.r4.model.Organization;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
