@@ -8,7 +8,9 @@
 
 package nl.koppeltaal.poc.jwt;
 
-import com.auth0.jwk.*;
+import com.auth0.jwk.Jwk;
+import com.auth0.jwk.JwkException;
+import com.auth0.jwk.JwkProvider;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -71,7 +73,7 @@ public class JwtValidationService {
 		// Lookup the issuer.
 		String issuer = decode.getIssuer();
 
-		JwkProvider provider = new UrlJwkProvider(issuer);
+		JwkProvider provider = JwkProviderFactory.getJwkProvider(issuer);
 		Jwk jwk = provider.get(decode.getKeyId());
 		Assert.isTrue(jwk != null, String.format("Unable to locate public key for issuer %s", issuer));
 
@@ -79,10 +81,11 @@ public class JwtValidationService {
 		Algorithm algorithm = getValidationAlgorithm(jwk.getPublicKey(), algorithmName);
 
 		// Decode and verify the token.
-		Verification verification = JWT.require(algorithm);
-		verification.withIssuer(issuer); // Make sure to require yourself to be the audience.
+		Verification verification = JWT.require(algorithm)
+				.withIssuer(issuer) // Make sure to require yourself to be the audience.
+				.acceptLeeway(0);
 		if (StringUtils.isNotEmpty(audience)) {
-			verification.withAudience(audience); // Make sure to require yourself to be the audience.
+			verification = verification.withAudience(audience); // Make sure to require yourself to be the audience.
 		}
 		return verification
 				.acceptLeeway(leeway)
