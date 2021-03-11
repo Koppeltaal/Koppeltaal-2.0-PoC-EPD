@@ -22,14 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/Location")
 public class LocationsController extends BaseResourceController<LocationDto, Location> {
 
-
-	final LocationFhirClientService fhirClientService;
-	final LocationDtoConverter dtoConverter;
-
 	public LocationsController(LocationFhirClientService fhirClientService, LocationDtoConverter dtoConverter) {
 		super(fhirClientService, dtoConverter);
-		this.fhirClientService = fhirClientService;
-		this.dtoConverter = dtoConverter;
 	}
 
 }

@@ -22,14 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/Practitioner")
 public class PractitionerController extends BaseResourceController<PractitionerDto, Practitioner> {
 
-
-	final PractitionerFhirClientService fhirClientService;
-	final PractitionerDtoConverter dtoConverter;
-
 	public PractitionerController(PractitionerFhirClientService fhirClientService, PractitionerDtoConverter dtoConverter) {
 		super(fhirClientService, dtoConverter);
-		this.fhirClientService = fhirClientService;
-		this.dtoConverter = dtoConverter;
 	}
 
 }

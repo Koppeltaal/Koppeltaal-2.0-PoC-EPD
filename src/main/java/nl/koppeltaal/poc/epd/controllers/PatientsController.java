@@ -22,14 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/Patient")
 public class PatientsController extends BaseResourceController<PatientDto, Patient> {
 
-
-	final PatientFhirClientService fhirClientService;
-	final PatientDtoConverter dtoConverter;
-
 	public PatientsController(PatientFhirClientService fhirClientService, PatientDtoConverter dtoConverter) {
 		super(fhirClientService, dtoConverter);
-		this.fhirClientService = fhirClientService;
-		this.dtoConverter = dtoConverter;
 	}
 
 

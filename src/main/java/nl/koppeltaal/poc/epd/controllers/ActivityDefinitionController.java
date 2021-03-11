@@ -22,13 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/ActivityDefinition")
 public class ActivityDefinitionController extends BaseResourceController<ActivityDefinitionDto, ActivityDefinition> {
 
-	final ActivityDefinitionFhirClientService fhirClientService;
-	final ActivityDefinitionDtoConverter dtoConverter;
-
 	public ActivityDefinitionController(ActivityDefinitionFhirClientService fhirClientService, ActivityDefinitionDtoConverter dtoConverter) {
 		super(fhirClientService, dtoConverter);
-		this.fhirClientService = fhirClientService;
-		this.dtoConverter = dtoConverter;
 	}
 
 }

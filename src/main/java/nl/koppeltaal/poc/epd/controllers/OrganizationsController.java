@@ -22,14 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/Organization")
 public class OrganizationsController extends BaseResourceController<OrganizationDto, Organization> {
 
-
-	final OrganizationFhirClientService fhirClientService;
-	final OrganizationDtoConverter dtoConverter;
-
 	public OrganizationsController(OrganizationFhirClientService fhirClientService, OrganizationDtoConverter dtoConverter) {
 		super(fhirClientService, dtoConverter);
-		this.fhirClientService = fhirClientService;
-		this.dtoConverter = dtoConverter;
 	}
 
 }

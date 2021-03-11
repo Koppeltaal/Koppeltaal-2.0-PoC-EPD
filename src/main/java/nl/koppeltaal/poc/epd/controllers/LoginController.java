@@ -25,6 +25,7 @@ import java.io.IOException;
 /**
  *
  */
+@SuppressWarnings("SameReturnValue")
 @Controller
 
 public class LoginController {
@@ -35,6 +36,7 @@ public class LoginController {
 		this.oauth2ClientService = oauth2ClientService;
 	}
 
+	@SuppressWarnings("SameReturnValue")
 	@RequestMapping("code_response")
 	public String codeResponse(HttpSession httpSession, HttpServletRequest request, String code, String state) throws IOException {
 		Assert.assertEquals(state, httpSession.getAttribute("state"));
