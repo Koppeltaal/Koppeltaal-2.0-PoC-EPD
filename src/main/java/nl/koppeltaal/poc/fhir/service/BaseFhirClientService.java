@@ -61,6 +61,21 @@ public abstract class BaseFhirClientService<D extends BaseDto, R extends DomainR
 		return (R) getFhirClient(tokenStorage).read().resource(getResourceName()).withId(reference).execute();
 	}
 
+	public R getResourceByReference(TokenStorage tokenStorage, Reference reference) throws IOException, JwkException {
+		String ref = reference.getReference();
+		if (StringUtils.isNotEmpty(ref)) {
+			return getResourceByReference(tokenStorage, ref);
+		} else if (reference.getIdentifier() != null) {
+			return getResourceByIdentifier(tokenStorage, reference.getIdentifier());
+		}
+		return null;
+	}
+
+	public  R getResourceByIdentifier(TokenStorage tokenStorage, Identifier identifier) throws IOException, JwkException {
+		String system = StringUtils.isNotEmpty(identifier.getSystem()) ? identifier.getSystem() : getDefaultSystem();
+		return getResourceByIdentifier(tokenStorage, system, identifier.getValue());
+	}
+
 	public R getResourceByIdentifier(TokenStorage tokenStorage, String identifierValue) throws IOException, JwkException {
 		return getResourceByIdentifier(tokenStorage, identifierValue, getDefaultSystem());
 	}
