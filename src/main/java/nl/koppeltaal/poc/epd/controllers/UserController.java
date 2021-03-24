@@ -38,6 +38,7 @@ public class UserController {
 		SessionTokenStorage tokenStorage = new SessionTokenStorage(httpSession);
 		if (tokenStorage.hasToken()) {
 			rv.setUserId(oauth2ClientService.getUserIdFromCredentials(tokenStorage));
+			rv.setUserIdentifier(oauth2ClientService.getUserIdentifierFromCredentials(tokenStorage));
 			rv.setLoggedIn(true);
 		} else {
 			rv.setLoggedIn(false);

@@ -13,6 +13,7 @@ package nl.koppeltaal.poc.epd.dto;
  */
 public class UserDto {
 	private String userId;
+	private String userIdentifier;
 	private boolean loggedIn;
 
 	public boolean getLoggedIn() {
@@ -29,5 +30,13 @@ public class UserDto {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getUserIdentifier() {
+		return userIdentifier;
+	}
+
+	public void setUserIdentifier(String userIdentifier) {
+		this.userIdentifier = userIdentifier;
 	}
 }
