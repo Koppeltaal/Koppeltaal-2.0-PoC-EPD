@@ -31,10 +31,11 @@
             <li class="tab"><a href="index.html">Main</a></li>
             <li class="tab"><a href="patients.html">Patients</a></li>
             <li class="tab"><a href="practitioners.html">Practitioners</a></li>
+            <li class="tab"><a href="relatedperson.html">Related Person</a></li>
             <li class="tab"><a href="organizations.html">Organizations</a></li>
             <li class="tab"><a href="activitydefinitions.html" class="active">Activity Definitions</a></li>
             <li class="tab"><a href="locations.html">Locations</a></li>
-            <li class="tab"><a href="endpoints.html" >Endpoints</a></li>
+            <li class="tab"><a href="endpoints.html">Endpoints</a></li>
         </ul>
     </div>
 </nav>
@@ -66,7 +67,7 @@
                 <div class="card-content">
                     <span class="card-title">Add a activitydefinition</span>
 
-                    <input name="reference" id="reference" type="hidden" />
+                    <input name="reference" id="reference" type="hidden"/>
                     <input name="active" id="active" type="hidden" value="true"/>
                     <div class="row">
                         <div class="input-field col s6">
@@ -159,8 +160,7 @@
       .then((data) => {
         const tdata = document.querySelector('div.activitydefinitions table.data tbody');
         tdata.innerHTML = '';
-        for (var i in data) {
-          const activitydefinition = data[i];
+        for (let activitydefinition of Object.values(data)) {
           const tr = document.createElement('tr');
           tr.append(createTd(activitydefinition.name));
           tr.append(createTd(activitydefinition.address));
@@ -201,8 +201,7 @@
         fetch('/api/' + value)
           .then(jsonResponseHandler)
           .then((data) => {
-            for (let key in data) {
-              let value = data[key];
+            for (let [key, value] of Object.entries(data)) {
               let element = document.getElementById(key);
               if (element) {
                 if (element.nodeName === 'TEXTAREA') {
@@ -241,13 +240,11 @@
       });
     fetch('/api/Location')
       .then(jsonResponseHandler)
-      .then((locations) => {
-        for (let i in locations) {
-          let location = locations[i];
+      .then((data) => {
+        for (let location of Object.values(data)) {
           document.getElementById('location').append(parseHtml('<option value="' + location.reference + '">' + location.endpoint + '</option>'))
         }
-      })
-      .then(updateForm);
+      }).then(updateForm);
   }, false);
 </script>
 </body>

@@ -31,6 +31,7 @@
             <li class="tab"><a href="index.html">Main</a></li>
             <li class="tab"><a href="patients.html">Patients</a></li>
             <li class="tab"><a href="practitioners.html">Practitioners</a></li>
+            <li class="tab"><a href="relatedperson.html">Related Person</a></li>
             <li class="tab"><a href="organizations.html">Organization</a></li>
             <li class="tab"><a href="activitydefinitions.html">Activity Definitions</a></li>
             <li class="tab"><a href="locations.html">Locations</a></li>
@@ -99,7 +100,8 @@
                     </div>
                 </div>
                 <div class="card-action">
-                    <button class="btn waves-effect waves-light" type="button" onclick="clearForm(this)" name="action">Reset
+                    <button class="btn waves-effect waves-light" type="button" onclick="clearForm(this)" name="action">
+                        Reset
                         <i class="material-icons left">clear</i>
                     </button>
                     <button class="btn waves-effect waves-light" type="submit" name="action">Submit
@@ -138,8 +140,7 @@
       .then((data) => {
         const tdata = document.querySelector('div.endpoints table.data tbody');
         tdata.innerHTML = '';
-        for (var i in data) {
-          const endpoint = data[i];
+        for (let endpoint of Object.values(data)) {
           const tr = document.createElement('tr');
           tr.append(createTd(endpoint.name));
           tr.append(createTd(endpoint.address));
@@ -159,8 +160,7 @@
           editAction.setAttribute("data-reference", endpoint.reference)
           editAction.setAttribute("data-identifierValue", endpoint.identifierValue)
           editAction.onclick = (e) => {
-            const reference = e.target.getAttribute("data-reference");
-            document.getElementById('reference').value = reference;
+            document.getElementById('reference').value = e.target.getAttribute("data-reference");
             var evt = document.createEvent("HTMLEvents");
             evt.initEvent("change", false, true);
             document.getElementById('reference').dispatchEvent(evt);
@@ -169,6 +169,7 @@
           td.append(editAction);
           tr.append(td);
           tdata.append(tr);
+
         }
       });
   }
@@ -181,8 +182,7 @@
         fetch('/api/' + value)
           .then(jsonResponseHandler)
           .then((data) => {
-            for (let key in data) {
-              let value = data[key];
+            for (let [key, value] of Object.entries(data)) {
               let element = document.getElementById(key);
               if (element) {
                 if (element.nodeName === 'TEXTAREA') {

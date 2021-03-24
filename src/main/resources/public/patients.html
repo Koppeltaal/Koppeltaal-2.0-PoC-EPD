@@ -31,6 +31,7 @@
             <li class="tab"><a href="index.html">Main</a></li>
             <li class="tab"><a href="patients.html" class="active">Patients</a></li>
             <li class="tab"><a href="practitioners.html">Practitioners</a></li>
+            <li class="tab"><a href="relatedperson.html">Related Person</a></li>
             <li class="tab"><a href="organizations.html">Organization</a></li>
             <li class="tab"><a href="activitydefinitions.html">Activity Definitions</a></li>
             <li class="tab"><a href="locations.html">Locations</a></li>
@@ -179,8 +180,7 @@
       .then((data) => {
         const tdata = document.querySelector('div.patients table.data tbody');
         tdata.innerHTML = '';
-        for (var i in data) {
-          const patient = data[i];
+        for (let patient of Object.values(data)) {
           const tr = document.createElement('tr');
 
           tr.append(createTd(patient.identifierSystem, patient.identifierValue));
@@ -201,8 +201,7 @@
           let editAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">edit</i>edit</a>')
           editAction.setAttribute("data-reference", patient.reference)
           editAction.onclick = (e) => {
-            const reference = e.target.getAttribute("data-reference");
-            document.getElementById('reference').value = reference;
+            document.getElementById('reference').value = e.target.getAttribute("data-reference");
             var evt = document.createEvent("HTMLEvents");
             evt.initEvent("change", false, true);
             document.getElementById('reference').dispatchEvent(evt);
@@ -211,6 +210,7 @@
           td.append(editAction);
           tr.append(td);
           tdata.append(tr);
+
         }
       });
   }
@@ -223,8 +223,7 @@
         fetch('/api/' + value)
           .then(jsonResponseHandler)
           .then((data) => {
-            for (let key in data) {
-              let value = data[key];
+            for (let [key, value] of Object.entries(data)) {
               let element = document.getElementById(key);
               if (element) {
                 element.value = readValue(value, key);
@@ -233,7 +232,7 @@
 
           })
           .then(updateForm)
-          .catch(reason => {
+          .catch(() => {
             // ignore
           })
       }
@@ -259,9 +258,8 @@
       });
     fetch('/api/Organization')
       .then(jsonResponseHandler)
-      .then((organizations) => {
-        for (let i in organizations) {
-          let organization = organizations[i];
+      .then((data) => {
+        for (let organization of Object.values(data)) {
           document.getElementById('organization').append(parseHtml('<option value="' + organization.identifierSystem + "|" + organization.identifierValue + '">' + organization.name + '</option>'))
         }
       })

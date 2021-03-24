@@ -83,6 +83,13 @@ public class RelatedPersonDtoConverter implements DtoConverter<RelatedPersonDto,
 		} else {
 			relatedPerson.getRelationship().clear();
 		}
+
+		String patient = relatedPersonDto.getPatient();
+		if (StringUtils.isNotEmpty(patient)) {
+			relatedPerson.setPatient(new Reference(patient));
+		} else {
+			relatedPerson.setPatient(null);
+		}
 	}
 
 	@SuppressWarnings("PMD.AvoidBranchingStatementAsLastInLoop")
@@ -140,6 +147,11 @@ public class RelatedPersonDtoConverter implements DtoConverter<RelatedPersonDto,
 				relatedPersonDto.setRelationshipCode(coding.getCode());
 				break;
 			}
+		}
+
+		Reference patient = relatedPerson.getPatient();
+		if (patient != null) {
+			relatedPersonDto.setPatient(patient.getReference());
 		}
 
 	}

@@ -31,6 +31,7 @@
             <li class="tab"><a href="index.html">Main</a></li>
             <li class="tab"><a href="patients.html">Patients</a></li>
             <li class="tab"><a href="practitioners.html" class="active">Practitioners</a></li>
+            <li class="tab"><a href="relatedperson.html">Related Person</a></li>
             <li class="tab"><a href="organizations.html">Organization</a></li>
             <li class="tab"><a href="activitydefinitions.html">Activity Definitions</a></li>
             <li class="tab"><a href="locations.html">Locations</a></li>
@@ -207,8 +208,7 @@
       .then((data) => {
         const tdata = document.querySelector('div.practitioners table.data tbody');
         tdata.innerHTML = '';
-        for (var i in data) {
-          const practitioner = data[i];
+        for (let practitioner of Object.values(data)) {
           const tr = document.createElement('tr');
 
           tr.append(createTd(practitioner.identifierSystem, practitioner.identifierValue));
@@ -229,8 +229,7 @@
           let editAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">edit</i>edit</a>')
           editAction.setAttribute("data-reference", practitioner.reference)
           editAction.onclick = (e) => {
-            const reference = e.target.getAttribute("data-reference");
-            document.getElementById('reference').value = reference;
+            document.getElementById('reference').value = e.target.getAttribute("data-reference");
             var evt = document.createEvent("HTMLEvents");
             evt.initEvent("change", false, true);
             document.getElementById('reference').dispatchEvent(evt);
@@ -251,8 +250,7 @@
         fetch('/api/' + value)
           .then(jsonResponseHandler)
           .then((data) => {
-            for (let key in data) {
-              let value = data[key];
+            for (let [key, value] of Object.entries(data)) {
               let element = document.getElementById(key);
               if (element) {
                 if (element.nodeName === 'TEXTAREA') {
@@ -291,13 +289,11 @@
       });
     fetch('/api/Organization')
       .then(jsonResponseHandler)
-      .then((organizations) => {
-        for (let i in organizations) {
-          let organization = organizations[i];
+      .then((data) => {
+        for (let organization of Object.values(data)) {
           document.getElementById('organization').append(parseHtml('<option value="' + organization.identifierSystem + "|" + organization.identifierValue + '">' + organization.name + '</option>'))
         }
-      })
-      .then(updateForm);
+      }).then(updateForm);
   }, false);
 </script>
 </body>

@@ -31,18 +31,18 @@
             <li class="tab"><a href="index.html">Main</a></li>
             <li class="tab"><a href="patients.html">Patients</a></li>
             <li class="tab"><a href="practitioners.html">Practitioners</a></li>
-            <li class="tab"><a href="relatedperson.html">Related Person</a></li>
-            <li class="tab"><a href="organizations.html" class="active">Organization</a></li>
+            <li class="tab"><a href="relatedperson.html" class="active">Related Person</a></li>
+            <li class="tab"><a href="organizations.html">Organization</a></li>
             <li class="tab"><a href="activitydefinitions.html">Activity Definitions</a></li>
             <li class="tab"><a href="locations.html">Locations</a></li>
             <li class="tab"><a href="endpoints.html">Endpoints</a></li>
         </ul>
     </div>
 </nav>
-<div class="container content-tab organizations">
+<div class="container content-tab relatedPersons">
     <div class="row">
         <div class="col s12">
-            <h1>Organizations</h1>
+            <h1>RelatedPersons</h1>
         </div>
     </div>
     <div class="row">
@@ -63,10 +63,10 @@
         </div>
     </div>
     <div class="row">
-        <form action="/api/Organization" data-tab="organizations" class="col s12">
+        <form action="/api/RelatedPerson" data-tab="relatedPersons" class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <span class="card-title">Add a organization</span>
+                    <span class="card-title">Add a relatedPerson</span>
 
                     <input name="reference" id="reference" type="hidden"/>
                     <input name="active" id="active" type="hidden" value="true"/>
@@ -74,8 +74,7 @@
                         <div class="input-field col s6">
                             <i class="material-icons prefix">domain</i>
                             <select id="identifierSystem" name="identifierSystem">
-                                <option value="http://fhir.nl/fhir/NamingSystem/agb-z">agb-z</option>
-                                <option value="http://fhir.nl/fhir/NamingSystem/ura">ura</option>
+                                <option value="IRMA">IRMA</option>
                             </select>
                             <label for="identifierSystem">Identifier system</label>
                         </div>
@@ -88,10 +87,47 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
+                            <i class="material-icons prefix">person</i>
+                            <select id="patient" name="patient">
+                                <option value="">[NONE]</option>
+                            </select>
+                            <label for="patient">Patient</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">person</i>
+                            <select id="relationshipSystem" name="relationshipSystem">
+                                <option value="">[NONE]</option>
+                                <option value="http://terminology.hl7.org/CodeSystem/v2-0131">CodeSystem-v2-0131
+                                </option>
+                                <option value="http://terminology.hl7.org/CodeSystem/v3-RoleCode">
+                                    CodeSystem-v3-RoleCode
+                                </option>
+                            </select>
+                            <label for="relationshipSystem">Relationship System</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">person</i>
+                            <input type="hidden" id="relationshipCode_shadow" value=""/>
+                            <select id="relationshipCode" name="relationshipCode">
+                                <option value="">[NONE]</option>
+                            </select>
+                            <label for="relationshipCode">Relationship System</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
                             <i class="material-icons prefix">account_circle</i>
-                            <input placeholder="Naam" name="name" id="name" type="text"
+                            <input placeholder="Voornaam(en)" name="nameGiven" id="nameGiven" type="text"
                                    class="validate">
-                            <label for="name">Name</label>
+                            <label for="nameGiven">First Name</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input placeholder="Achternaam" name="nameFamily" id="nameFamily" type="text"
+                                   class="validate">
+                            <label for="nameFamily">Last Name</label>
                         </div>
                     </div>
                     <div class="row">
@@ -136,12 +172,38 @@
                             <label for="addressCountry">Country</label>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">perm_identity</i>
+                            <select id="gender" name="gender">
+                                <option value="unknown">Unknown</option>
+                                <option value="female">Female</option>
+                                <option value="male">Male</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <label for="gender">Gender</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">date_range</i>
+                            <input class="datepicker validate" name="birthDate" id="birthDate" type="text">
+                            <label for="birthDate">Birthdate (dd-mm-yyyy)</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">business</i>
+                            <select id="organization" name="organization">
+                                <option value="">[NONE]</option>
+                            </select>
+                            <label for="organization">Organization</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-action">
                     <button class="btn waves-effect waves-light" type="reset" name="action">Reset
                         <i class="material-icons left">clear</i>
                     </button>
-                    <button class="btn waves-effect waves-light" type="submit" name="action" disabled>Submit
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
                         <i class="material-icons right">send</i>
                     </button>
                 </div>
@@ -149,10 +211,10 @@
         </form>
     </div>
 </div>
-<div class="container content-tab organizations" style="display: none">
+<div class="container content-tab relatedPersons" style="display: none">
     <div class="row">
         <div class="col s12">
-            <h1>Organizations</h1>
+            <h1>RelatedPersons</h1>
         </div>
     </div>
 </div>
@@ -172,20 +234,20 @@
 
       return td;
     }
-    fetch('/api/Organization?t_=' + new Date().getTime())
+    fetch('/api/RelatedPerson?t_=' + new Date().getTime())
       .then(jsonResponseHandler)
       .then((data) => {
-        const tdata = document.querySelector('div.organizations table.data tbody');
+        const tdata = document.querySelector('div.relatedPersons table.data tbody');
         tdata.innerHTML = '';
-        for (let organization of Object.values(data)) {
+        for (let relatedPerson of Object.values(data)) {
           const tr = document.createElement('tr');
 
-          tr.append(createTd(organization.identifierSystem, organization.identifierValue));
-          tr.append(createTd(organization.name, organization.nameFamily));
-          tr.append(createTd(organization.email, organization.phone));
+          tr.append(createTd(relatedPerson.identifierSystem, relatedPerson.identifierValue));
+          tr.append(createTd(relatedPerson.nameGiven, relatedPerson.nameFamily));
+          tr.append(createTd(relatedPerson.email, relatedPerson.phone));
           let td = document.createElement('td');
           let deleteAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">delete_forever</i>delete</a>')
-          deleteAction.setAttribute("data-reference", organization.reference)
+          deleteAction.setAttribute("data-reference", relatedPerson.reference)
           deleteAction.onclick = (e) => {
             const reference = e.target.getAttribute("data-reference");
             fetch('/api/' + reference, {method: 'DELETE'}).then(() => {
@@ -196,8 +258,7 @@
           td.append(deleteAction);
           td.append(' ');
           let editAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">edit</i>edit</a>')
-          editAction.setAttribute("data-reference", organization.reference)
-          editAction.setAttribute("data-identifierValue", organization.identifierValue)
+          editAction.setAttribute("data-reference", relatedPerson.reference)
           editAction.onclick = (e) => {
             document.getElementById('reference').value = e.target.getAttribute("data-reference");
             var evt = document.createEvent("HTMLEvents");
@@ -214,6 +275,28 @@
   }
 
   function registerFormInputListeners() {
+    document.getElementById('relationshipSystem').onchange = (e) => {
+      let input = e.target;
+      let value = input.value;
+      console.log('relationshipSystem: ' + value)
+      if (value) {
+        fetch('/api/codesystem?codeSystem=' + encodeURIComponent(value), {cache: "force-cache"})
+          .then(jsonResponseHandler)
+          .then((data) => {
+            const relationshipCodeEl = document.getElementById('relationshipCode');
+            const relationshipCodeShadowEl = document.getElementById('relationshipCode_shadow');
+            let currentValue = relationshipCodeShadowEl.value;
+            console.log('currentValue: ' + currentValue)
+            relationshipCodeEl.innerHTML = '';
+            relationshipCodeEl.append(parseHtml('<option value="">[NONE]</option>'));
+            let concepts = data['concept'];
+            concepts.forEach((concept) => {
+              relationshipCodeEl.append(parseHtml('<option value="' + concept.code + '">' + concept.display + '</option>'));
+            });
+            relationshipCodeEl.value = currentValue
+          }).then(updateForm);
+      }
+    }
     document.getElementById('reference').onchange = (e) => {
       let input = e.target;
       let value = input.value
@@ -223,11 +306,19 @@
           .then((data) => {
             for (let [key, value] of Object.entries(data)) {
               let element = document.getElementById(key);
+              let shadow = document.getElementById(key + '_shadow');
               if (element) {
                 if (element.nodeName === 'TEXTAREA') {
                   element.textContent = readValue(value, key);
                 } else {
                   element.value = readValue(value, key);
+                }
+                if (shadow) {
+                  shadow.value = readValue(value, key);
+                }
+                if (element !== input) {
+                  var event = new Event('change');
+                  element.dispatchEvent(event)
                 }
               }
             }
@@ -237,9 +328,6 @@
             // ignore
             console.log(reason)
           })
-        document.querySelector("button[type='submit']").disabled = false;
-      } else {
-        document.querySelector("button[type='submit']").disabled = true;
       }
     }
   }
@@ -261,6 +349,25 @@
           }
         }
       });
+    fetch('/api/Patient')
+      .then(jsonResponseHandler)
+      .then((data) => {
+        for (let patient of Object.values(data)) {
+          let name = '';
+          if (patient.nameGiven) {
+            name += patient.nameGiven;
+          }
+          if (patient.nameFamily) {
+            name += (name.length > 0 ? ' ' : '');
+            name += patient.nameFamily;
+          }
+          if (patient.identifierValue) {
+            name += (name.length > 0 ? ' ' : '');
+            name += '(' + patient.identifierValue + ')';
+          }
+          document.getElementById('patient').append(parseHtml('<option value="' + patient.reference + '">' + name + '</option>'))
+        }
+      }).then(updateForm);
   }, false);
 </script>
 </body>
