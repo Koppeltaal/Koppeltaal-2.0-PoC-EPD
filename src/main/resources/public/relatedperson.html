@@ -113,7 +113,7 @@
                             <select id="relationshipCode" name="relationshipCode">
                                 <option value="">[NONE]</option>
                             </select>
-                            <label for="relationshipCode">Relationship System</label>
+                            <label for="relationshipCode">Relationship Code</label>
                         </div>
                     </div>
                     <div class="row">
@@ -278,7 +278,6 @@
     document.getElementById('relationshipSystem').onchange = (e) => {
       let input = e.target;
       let value = input.value;
-      console.log('relationshipSystem: ' + value)
       if (value) {
         fetch('/api/codesystem?codeSystem=' + encodeURIComponent(value), {cache: "force-cache"})
           .then(jsonResponseHandler)
