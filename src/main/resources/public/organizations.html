@@ -23,7 +23,7 @@
     <div class="nav-wrapper ">
         &nbsp; <a href="#" class="brand-logo">EePeeDee <i class="large material-icons">assignment</i></a>
         <ul id="nav-mobile" class="right">
-            <li><a href="/logout">Logout</a></li>
+            <li><a href="/logout" class="waves-effect waves-light btn purple accent-1">Logout</a></li>
         </ul>
     </div>
     <div class="nav-content purple lighten-3">
@@ -138,10 +138,10 @@
                     </div>
                 </div>
                 <div class="card-action">
-                    <button class="btn waves-effect waves-light" type="reset" name="action">Reset
+                    <button class="btn waves-effect waves-light purple" type="reset" name="action">Reset
                         <i class="material-icons left">clear</i>
                     </button>
-                    <button class="btn waves-effect waves-light" type="submit" name="action" disabled>Submit
+                    <button class="btn waves-effect waves-light purple" type="submit" name="action" disabled>Submit
                         <i class="material-icons right">send</i>
                     </button>
                 </div>
@@ -184,7 +184,7 @@
           tr.append(createTd(organization.name, organization.nameFamily));
           tr.append(createTd(organization.email, organization.phone));
           let td = document.createElement('td');
-          let deleteAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">delete_forever</i>delete</a>')
+          let deleteAction = parseHtml('<a href="#" class="btn-small waves-effect waves-light purple"><i class="small material-icons left">delete_forever</i>delete</a>')
           deleteAction.setAttribute("data-reference", organization.reference)
           deleteAction.onclick = (e) => {
             const reference = e.target.getAttribute("data-reference");
@@ -195,7 +195,7 @@
           }
           td.append(deleteAction);
           td.append(' ');
-          let editAction = parseHtml('<a href="#" class="waves-effect waves-light btn-small"><i class="small material-icons left">edit</i>edit</a>')
+          let editAction = parseHtml('<a href="#" class="btn-small waves-effect waves-light purple"><i class="small material-icons left">edit</i>edit</a>')
           editAction.setAttribute("data-reference", organization.reference)
           editAction.setAttribute("data-identifierValue", organization.identifierValue)
           editAction.onclick = (e) => {
