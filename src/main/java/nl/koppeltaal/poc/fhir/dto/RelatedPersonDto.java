@@ -11,6 +11,10 @@ public class RelatedPersonDto extends PersonDto {
 	String addressPostalCode;
 	String addressCountry;
 	String patient;
+	/**
+	 * Format relationshipSystem|relationshipCode
+	 */
+	String relationship;
 	String relationshipSystem;
 	String relationshipCode;
 
@@ -68,6 +72,14 @@ public class RelatedPersonDto extends PersonDto {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getRelationship() {
+		return relationship;
+	}
+
+	public void setRelationship(String relationship) {
+		this.relationship = relationship;
 	}
 
 	public String getRelationshipCode() {

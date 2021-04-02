@@ -75,11 +75,20 @@ public class RelatedPersonDtoConverter implements DtoConverter<RelatedPersonDto,
 			}
 		}
 
-		if (StringUtils.isNotEmpty(relatedPersonDto.getRelationshipSystem()) &&  StringUtils.isNotEmpty(relatedPersonDto.getRelationshipCode())) {
+		if (StringUtils.isNotEmpty(relatedPersonDto.getRelationshipSystem()) && StringUtils.isNotEmpty(relatedPersonDto.getRelationshipCode())) {
 			CodeableConcept codeableConcept = new CodeableConcept();
-			Coding coding = new Coding(relatedPersonDto.getRelationshipSystem(), relatedPersonDto.getRelationshipCode(),  null);
+			Coding coding = new Coding(relatedPersonDto.getRelationshipSystem(), relatedPersonDto.getRelationshipCode(), null);
 			codeableConcept.setCoding(Collections.singletonList(coding));
 			relatedPerson.setRelationship(Collections.singletonList(codeableConcept));
+		} else if (StringUtils.isNotEmpty(relatedPersonDto.getRelationship()) && StringUtils.contains(relatedPersonDto.getRelationship(), '|')) {
+			String relationship = relatedPersonDto.getRelationship();
+			String[] parts = StringUtils.split(relationship, '|');
+			if (parts.length > 1) {
+				CodeableConcept codeableConcept = new CodeableConcept();
+				Coding coding = new Coding(parts[0], parts[1], null);
+				codeableConcept.setCoding(Collections.singletonList(coding));
+				relatedPerson.setRelationship(Collections.singletonList(codeableConcept));
+			}
 		} else {
 			relatedPerson.getRelationship().clear();
 		}
