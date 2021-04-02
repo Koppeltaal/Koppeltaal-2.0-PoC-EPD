@@ -19,7 +19,6 @@ import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.fhir.dto.BaseDto;
 import nl.koppeltaal.poc.fhir.dto.DtoConverter;
 import nl.koppeltaal.poc.generic.TokenStorage;
-import nl.koppeltaal.poc.portal.controllers.SessionTokenStorage;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.*;
 
@@ -58,6 +57,15 @@ public abstract class BaseFhirClientService<D extends BaseDto, R extends DomainR
 		}
 	}
 
+	public R getResourceByIdentifier(TokenStorage tokenStorage, Identifier identifier) throws IOException, JwkException {
+		String system = StringUtils.isNotEmpty(identifier.getSystem()) ? identifier.getSystem() : getDefaultSystem();
+		return getResourceByIdentifier(tokenStorage, system, identifier.getValue());
+	}
+
+	public R getResourceByIdentifier(TokenStorage tokenStorage, String identifierValue) throws IOException, JwkException {
+		return getResourceByIdentifier(tokenStorage, identifierValue, getDefaultSystem());
+	}
+
 	public R getResourceByReference(TokenStorage tokenStorage, String reference) throws IOException, JwkException {
 		return (R) getFhirClient(tokenStorage).read().resource(getResourceName()).withId(reference).execute();
 	}
@@ -70,15 +78,6 @@ public abstract class BaseFhirClientService<D extends BaseDto, R extends DomainR
 			return getResourceByIdentifier(tokenStorage, reference.getIdentifier());
 		}
 		return null;
-	}
-
-	public  R getResourceByIdentifier(TokenStorage tokenStorage, Identifier identifier) throws IOException, JwkException {
-		String system = StringUtils.isNotEmpty(identifier.getSystem()) ? identifier.getSystem() : getDefaultSystem();
-		return getResourceByIdentifier(tokenStorage, system, identifier.getValue());
-	}
-
-	public R getResourceByIdentifier(TokenStorage tokenStorage, String identifierValue) throws IOException, JwkException {
-		return getResourceByIdentifier(tokenStorage, identifierValue, getDefaultSystem());
 	}
 
 	public List<R> getResources(TokenStorage tokenStorage) throws JwkException, IOException {
