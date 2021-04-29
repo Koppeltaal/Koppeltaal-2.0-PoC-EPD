@@ -15,6 +15,11 @@
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"
           media="screen,projection"/>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 
 </head>
 <body>
@@ -35,15 +40,15 @@
             <li class="tab"><a href="organizations.html">Organization</a></li>
             <li class="tab"><a href="activitydefinitions.html">Activity Definitions</a></li>
             <li class="tab"><a href="locations.html">Locations</a></li>
-            <li class="tab"><a href="endpoints.html" class="active">Endpoints</a></li>
-            <li class="tab"><a href="subscriptions.html">Subscriptions</a></li>
+            <li class="tab"><a href="endpoints.html">Endpoints</a></li>
+            <li class="tab"><a href="subscriptions.html" class="active">Subscriptions</a></li>
         </ul>
     </div>
 </nav>
-<div class="container content-tab endpoints">
+<div class="container content-tab subscriptions">
     <div class="row">
         <div class="col s12">
-            <h1>Endpoints</h1>
+            <h1>Subscriptions</h1>
         </div>
     </div>
     <div class="row">
@@ -51,9 +56,12 @@
             <table class="data">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Action</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Criteria</th>
+                    <th>Endpoint</th>
+                    <th>Header</th>
+                    <th>Payload</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -63,40 +71,76 @@
         </div>
     </div>
     <div class="row">
-        <form action="/api/Endpoint" data-tab="endpoints" class="col s12">
+        <form action="/api/Subscription" data-tab="subscriptions" class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <span class="card-title">Add a endpoint</span>
+                    <span class="card-title">Add a resource</span>
 
                     <input name="reference" id="reference" type="hidden"/>
-                    <input name="active" id="active" type="hidden" value="true"/>
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">account_circle</i>
-                            <input placeholder="Naam" name="name" id="name" type="text"
+                            <input placeholder="Criteria" name="criteria" id="criteria" type="text"
                                    class="validate">
-                            <label for="name">Name</label>
+                            <label for="criteria">Criteria</label>
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">perm_identity</i>
                             <select id="status" name="status">
-                                <option value=""></option>
-                                <option value="active">active</option>
-                                <option value="suspended">suspended</option>
-                                <option value="error">error</option>
-                                <option value="off">off</option>
-                                <option value="enteredinerror">enteredinerror</option>
-                                <option value="test">test</option>
+                                <option value="REQUESTED">requested</option>
+                                <option value="ACTIVE">active</option>
+                                <option value="ERROR">error</option>
+                                <option value="OFF">off</option>
                             </select>
                             <label for="status">Status</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <i class="material-icons prefix">contact_mail</i>
-                            <input placeholder="work@example.com" name="address" id="address" type="text"
-                                   class="validate">
-                            <label for="address">Address (URL)</label>
+                            <i class="material-icons prefix">perm_identity</i>
+                            <select id="type" name="type" onchange="handleTypeChange(this.value)">
+                                <option value="NULL" disabled selected>Selecteer type webhook</option>
+                                <option value="RESTHOOK">REST Hook</option>
+                                <option value="EMAIL">Email</option>
+                            </select>
+                            <label for="type">Type</label>
+                        </div>
+                    </div>
+                    <div class="rest-hook-container hidden">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">cloud</i>
+                                <input placeholder="https://example.org/webhook" name="endpoint" id="endpoint" type="text"
+                                       class="validate">
+                                <label for="endpoint">Endpoint (URL)</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">post_add</i>
+                                <select id="payload" name="payload">
+                                    <option value="NULL">Geen payload</option>
+                                    <option value="application/fhir+json">JSON</option>
+                                    <option value="application/fhir+xml">XML</option>
+                                </select>
+                                <label for="payload">Payload</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">subtitles</i>
+                                <input placeholder="work@example.com" name="header" id="header" type="text"
+                                       class="validate">
+                                <label for="header">Header</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="email-hook-container hidden">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">contact_mail</i>
+                                <input placeholder="work@example.com" name="endpoint" id="endpoint-email" type="text"
+                                       class="validate">
+                                <label for="endpoint-email">Address (URL)</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -105,7 +149,7 @@
                         Reset
                         <i class="material-icons left">clear</i>
                     </button>
-                    <button class="btn waves-effect waves-light purple" type="submit" name="action">Submit
+                    <button class="btn waves-effect waves-light purple disabled" type="submit" name="action">Submit
                         <i class="material-icons right">send</i>
                     </button>
                 </div>
@@ -113,10 +157,10 @@
         </form>
     </div>
 </div>
-<div class="container content-tab endpoints" style="display: none">
+<div class="container content-tab subscriptions" style="display: none">
     <div class="row">
         <div class="col s12">
-            <h1>Endpoints</h1>
+            <h1>Subscriptions</h1>
         </div>
     </div>
 </div>
@@ -126,7 +170,50 @@
 <script>
   let currentUser;
 
+  const hideMap = {
+    "NULL": {
+      "hide": [".rest-hook-container:not(.hidden)", ".email-hook-container:not(.hidden)"],
+    },
+    "EMAIL": {
+      "hide": [".rest-hook-container:not(.hidden)"],
+      "show": ".email-hook-container.hidden",
+    },
+    "RESTHOOK": {
+      "hide": [".email-hook-container:not(.hidden)"],
+      "show": ".rest-hook-container.hidden",
+    }
+  }
+
+  const handleTypeChange = (selectedValue) => {
+
+    //Show correct container based on the selected type
+    if(hideMap[selectedValue]) {
+
+      hideMap[selectedValue].hide.forEach((hideSelector) => {
+          const hideContainer = document.querySelector(hideSelector);
+          if(hideContainer) {
+            hideContainer.className = hideContainer.className.concat(" hidden");
+          }
+      });
+
+      const showContainer = document.querySelector(hideMap[selectedValue].show);
+      if(showContainer) {
+        showContainer.className = showContainer.className.replaceAll(" hidden", "");
+      }
+    }
+
+    //Set save button state
+    const saveButton = document.querySelector("button[type='submit']");
+
+    if(selectedValue !== "NULL") {
+      saveButton.className = saveButton.className.replace(" disabled", "");
+    } else {
+      saveButton.className = saveButton.className.concat(" disabled");
+    }
+  }
+
   const render = () => {
+
     const createTd = (...args) => {
       let td = document.createElement('td');
       args.forEach((arg) => {
@@ -136,18 +223,22 @@
 
       return td;
     }
-    fetch('/api/Endpoint?t_=' + new Date().getTime())
+    fetch('/api/Subscription?t_=' + new Date().getTime())
       .then(jsonResponseHandler)
       .then((data) => {
-        const tdata = document.querySelector('div.endpoints table.data tbody');
+        const tdata = document.querySelector('div.subscriptions table.data tbody');
         tdata.innerHTML = '';
-        for (let endpoint of Object.values(data)) {
+        for (let subscription of Object.values(data)) {
           const tr = document.createElement('tr');
-          tr.append(createTd(endpoint.name));
-          tr.append(createTd(endpoint.address));
+          tr.append(createTd(subscription.type));
+          tr.append(createTd(subscription.status));
+          tr.append(createTd(subscription.criteria));
+          tr.append(createTd(subscription.endpoint));
+          tr.append(createTd(subscription.header));
+          tr.append(createTd(subscription.payload));
           let td = document.createElement('td');
           let deleteAction = parseHtml('<a href="#" class="btn-small waves-effect waves-light purple"><i class="small material-icons left">delete_forever</i>delete</a>')
-          deleteAction.setAttribute("data-reference", endpoint.reference)
+          deleteAction.setAttribute("data-reference", subscription.reference)
           deleteAction.onclick = (e) => {
             const reference = e.target.getAttribute("data-reference");
             fetch('/api/' + reference, {method: 'DELETE'}).then(() => {
@@ -158,13 +249,17 @@
           td.append(deleteAction);
           td.append(' ');
           let editAction = parseHtml('<a href="#" class="btn-small waves-effect waves-light purple"><i class="small material-icons left">edit</i>edit</a>')
-          editAction.setAttribute("data-reference", endpoint.reference)
-          editAction.setAttribute("data-identifierValue", endpoint.identifierValue)
+          editAction.setAttribute("data-reference", subscription.reference)
+          editAction.setAttribute("data-identifierValue", subscription.identifierValue)
           editAction.onclick = (e) => {
             document.getElementById('reference').value = e.target.getAttribute("data-reference");
             var evt = document.createEvent("HTMLEvents");
             evt.initEvent("change", false, true);
             document.getElementById('reference').dispatchEvent(evt);
+
+            // open the correct container
+            handleTypeChange(subscription.type);
+
             return false;
           }
           td.append(editAction);
@@ -184,14 +279,15 @@
           .then(jsonResponseHandler)
           .then((data) => {
             for (let [key, value] of Object.entries(data)) {
-              let element = document.getElementById(key);
-              if (element) {
+              let elements = document.querySelectorAll('[name="'+key+'"]')
+
+              elements.forEach((element) => {
                 if (element.nodeName === 'TEXTAREA') {
                   element.textContent = readValue(value, key);
                 } else {
                   element.value = readValue(value, key);
                 }
-              }
+              })
             }
           })
           .then(updateForm)
