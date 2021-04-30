@@ -41,7 +41,10 @@ public class SubscriptionDtoConverter implements DtoConverter<SubscriptionDto, S
 
 		if(channel != null) {
 			subscriptionDto.setEndpoint(channel.getEndpoint());
-			subscriptionDto.setPayload(channel.getPayload());
+			subscriptionDto.setPayload(
+					channel.getPayload() == null ? "NULL" : channel.getPayload()
+			);
+
 			subscriptionDto.setType(channel.getType());
 
 			//TODO: NTH: Support multiple headers

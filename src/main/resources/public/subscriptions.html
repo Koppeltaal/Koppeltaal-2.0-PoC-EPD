@@ -19,6 +19,16 @@
         .hidden {
             display: none;
         }
+        table {
+            table-layout: fixed;
+        }
+        td {
+            overflow: visible;
+            max-width: 16.6%;
+        }
+        td div {
+            overflow: hidden;
+        }
     </style>
 
 </head>
@@ -53,7 +63,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <table class="data">
+            <table class="data responsive-table highlight">
                 <thead>
                 <tr>
                     <th>Type</th>
@@ -62,6 +72,7 @@
                     <th>Endpoint</th>
                     <th>Header</th>
                     <th>Payload</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -106,14 +117,18 @@
                             <label for="type">Type</label>
                         </div>
                     </div>
+                    <div class="endpoint-container hidden">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">contact_mail</i>
+                                <input placeholder="work@example.com" name="endpoint" id="endpoint" type="text"
+                                       class="validate">
+                                <label for="endpoint">Address (URL) / email</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="rest-hook-container hidden">
                         <div class="row">
-                            <div class="input-field col s6">
-                                <i class="material-icons prefix">cloud</i>
-                                <input placeholder="https://example.org/webhook" name="endpoint" id="endpoint" type="text"
-                                       class="validate">
-                                <label for="endpoint">Endpoint (URL)</label>
-                            </div>
                             <div class="input-field col s6">
                                 <i class="material-icons prefix">post_add</i>
                                 <select id="payload" name="payload">
@@ -123,23 +138,10 @@
                                 </select>
                                 <label for="payload">Payload</label>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s12">
+                            <div class="input-field col s6">
                                 <i class="material-icons prefix">subtitles</i>
-                                <input placeholder="work@example.com" name="header" id="header" type="text"
-                                       class="validate">
+                                <textarea id="header" name="header" class="materialize-textarea validate"></textarea>
                                 <label for="header">Header</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="email-hook-container hidden">
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">contact_mail</i>
-                                <input placeholder="work@example.com" name="endpoint" id="endpoint-email" type="text"
-                                       class="validate">
-                                <label for="endpoint-email">Address (URL)</label>
                             </div>
                         </div>
                     </div>
@@ -176,12 +178,22 @@
     },
     "EMAIL": {
       "hide": [".rest-hook-container:not(.hidden)"],
-      "show": ".email-hook-container.hidden",
+      "show": [".endpoint-container.hidden"],
     },
     "RESTHOOK": {
-      "hide": [".email-hook-container:not(.hidden)"],
-      "show": ".rest-hook-container.hidden",
+      "show": [".rest-hook-container.hidden", ".endpoint-container.hidden"],
     }
+  }
+
+  const typeMap = {
+    "RESTHOOK": "REST Hook",
+    "EMAIL": "Email",
+  }
+
+  const payloadMap = {
+    "NULL": "Geen payload",
+    "application/fhir+json": "JSON",
+    "application/fhir+xml": "XML",
   }
 
   const handleTypeChange = (selectedValue) => {
@@ -189,16 +201,21 @@
     //Show correct container based on the selected type
     if(hideMap[selectedValue]) {
 
-      hideMap[selectedValue].hide.forEach((hideSelector) => {
+      hideMap[selectedValue].hide?.forEach((hideSelector) => {
           const hideContainer = document.querySelector(hideSelector);
           if(hideContainer) {
             hideContainer.className = hideContainer.className.concat(" hidden");
           }
       });
 
-      const showContainer = document.querySelector(hideMap[selectedValue].show);
-      if(showContainer) {
-        showContainer.className = showContainer.className.replaceAll(" hidden", "");
+      if(hideMap[selectedValue]) {
+
+        hideMap[selectedValue].show?.forEach((showValue) => {
+            const showContainer = document.querySelector(showValue);
+            if(showContainer) {
+              showContainer.className = showContainer.className.replaceAll(" hidden", "");
+            }
+        })
       }
     }
 
@@ -215,10 +232,16 @@
   const render = () => {
 
     const createTd = (...args) => {
-      let td = document.createElement('td');
+      const td = document.createElement('td');
+      const container = document.createElement('div');
+
+      td.appendChild(container);
+
       args.forEach((arg) => {
-        td.innerText += (td.innerText.length > 0 ? ' ' : '');
-        td.innerText += arg || '';
+        container.innerText += (container.innerText.length > 0 ? ' ' : '');
+        container.innerText += arg || '';
+        td.title += (container.innerText.length > 0 ? ' ' : '');
+        td.title += arg || '';
       });
 
       return td;
@@ -230,12 +253,12 @@
         tdata.innerHTML = '';
         for (let subscription of Object.values(data)) {
           const tr = document.createElement('tr');
-          tr.append(createTd(subscription.type));
+          tr.append(createTd(typeMap[subscription.type]));
           tr.append(createTd(subscription.status));
           tr.append(createTd(subscription.criteria));
           tr.append(createTd(subscription.endpoint));
           tr.append(createTd(subscription.header));
-          tr.append(createTd(subscription.payload));
+          tr.append(createTd(payloadMap[subscription.payload || "NULL"]));
           let td = document.createElement('td');
           let deleteAction = parseHtml('<a href="#" class="btn-small waves-effect waves-light purple"><i class="small material-icons left">delete_forever</i>delete</a>')
           deleteAction.setAttribute("data-reference", subscription.reference)
