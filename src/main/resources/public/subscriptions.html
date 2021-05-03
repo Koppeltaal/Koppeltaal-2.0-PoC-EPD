@@ -117,18 +117,14 @@
                             <label for="type">Type</label>
                         </div>
                     </div>
-                    <div class="endpoint-container hidden">
+                    <div class="base-container hidden">
                         <div class="row">
-                            <div class="input-field col s12">
+                            <div class="input-field col s6">
                                 <i class="material-icons prefix">contact_mail</i>
                                 <input placeholder="work@example.com" name="endpoint" id="endpoint" type="text"
                                        class="validate">
                                 <label for="endpoint">Address (URL) / email</label>
                             </div>
-                        </div>
-                    </div>
-                    <div class="rest-hook-container hidden">
-                        <div class="row">
                             <div class="input-field col s6">
                                 <i class="material-icons prefix">post_add</i>
                                 <select id="payload" name="payload">
@@ -138,7 +134,11 @@
                                 </select>
                                 <label for="payload">Payload</label>
                             </div>
-                            <div class="input-field col s6">
+                        </div>
+                    </div>
+                    <div class="rest-hook-container hidden">
+                        <div class="row">
+                            <div class="input-field col s12">
                                 <i class="material-icons prefix">subtitles</i>
                                 <textarea id="header" name="header" class="materialize-textarea validate"></textarea>
                                 <label for="header">Header</label>
@@ -174,14 +174,14 @@
 
   const hideMap = {
     "NULL": {
-      "hide": [".rest-hook-container:not(.hidden)", ".email-hook-container:not(.hidden)"],
+      "hide": [".rest-hook-container:not(.hidden)", ".base-container:not(.hidden)"],
     },
     "EMAIL": {
       "hide": [".rest-hook-container:not(.hidden)"],
-      "show": [".endpoint-container.hidden"],
+      "show": [".base-container.hidden"],
     },
     "RESTHOOK": {
-      "show": [".rest-hook-container.hidden", ".endpoint-container.hidden"],
+      "show": [".rest-hook-container.hidden", ".base-container.hidden"],
     }
   }
 
