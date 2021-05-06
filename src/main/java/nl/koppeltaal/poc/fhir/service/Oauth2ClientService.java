@@ -109,14 +109,18 @@ public class Oauth2ClientService {
 		httpPost.setHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", fhirClientConfiguration.getClientId(), fhirClientConfiguration.getClientSecret()).getBytes(StandardCharsets.US_ASCII)));
 		httpPost.setEntity(new UrlEncodedFormEntity(params));
 		CloseableHttpResponse response = httpClient.execute(httpPost);
-		try (InputStream in = response.getEntity().getContent()) {
-			String content = IOUtils.toString(new InputStreamReader(in, Charset.defaultCharset()));
-			ObjectMapper objectMapper = new ObjectMapper();
-			try {
-				tokenResponse = objectMapper.readValue(content, Oauth2TokenResponse.class);
-			} catch (JsonParseException e) {
-				System.out.println(content);
-				throw e;
+		if (response.getStatusLine().getStatusCode() == 401) {
+			throw new IOException("Access denied");
+		} else {
+			try (InputStream in = response.getEntity().getContent()) {
+				String content = IOUtils.toString(new InputStreamReader(in, Charset.defaultCharset()));
+				ObjectMapper objectMapper = new ObjectMapper();
+				try {
+					tokenResponse = objectMapper.readValue(content, Oauth2TokenResponse.class);
+				} catch (JsonParseException e) {
+					System.out.println(content);
+					throw e;
+				}
 			}
 		}
 	}
