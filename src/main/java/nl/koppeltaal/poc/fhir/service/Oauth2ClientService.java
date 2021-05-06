@@ -1,10 +1,18 @@
+/*
+ * Copyright (c) Stichting Koppeltaal 2021.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package nl.koppeltaal.poc.fhir.service;
 
 import com.auth0.jwk.JwkException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.koppeltaal.poc.epd.configuration.OidcConfiguration;
+import nl.koppeltaal.poc.fhir.configuration.OidcConfiguration;
 import nl.koppeltaal.poc.generic.Oauth2TokenResponse;
 import nl.koppeltaal.poc.jwt.JwtValidationService;
 import org.apache.commons.io.IOUtils;
