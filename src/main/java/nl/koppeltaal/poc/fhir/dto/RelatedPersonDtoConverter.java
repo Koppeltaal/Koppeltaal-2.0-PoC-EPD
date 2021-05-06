@@ -154,6 +154,7 @@ public class RelatedPersonDtoConverter implements DtoConverter<RelatedPersonDto,
 			for (Coding coding : codeableConcept.getCoding()) {
 				relatedPersonDto.setRelationshipSystem(coding.getSystem());
 				relatedPersonDto.setRelationshipCode(coding.getCode());
+				relatedPersonDto.setRelationship(String.format("%s|%s", coding.getSystem(), coding.getCode()));
 				break;
 			}
 		}

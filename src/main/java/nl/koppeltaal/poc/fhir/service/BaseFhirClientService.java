@@ -90,6 +90,16 @@ public abstract class BaseFhirClientService<D extends BaseDto, R extends DomainR
 		return rv;
 	}
 
+	public List<R> getResources(ICriterion<?> criterion) throws JwkException, IOException {
+		List<R> rv = new ArrayList<>();
+		Bundle bundle = getFhirClient().search().forResource(getResourceName()).where(criterion).returnBundle(Bundle.class).execute();
+		for (Bundle.BundleEntryComponent component : bundle.getEntry()) {
+			R resource = (R) component.getResource();
+			rv.add(resource);
+		}
+		return rv;
+	}
+
 	public R storeResource(TokenStorage tokenStorage, String source, R resource) throws IOException, JwkException {
 		String identifier = getIdentifier(getDefaultSystem(), resource);
 		String id = getId(resource);

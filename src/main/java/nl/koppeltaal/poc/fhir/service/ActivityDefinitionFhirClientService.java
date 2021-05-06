@@ -9,12 +9,15 @@
 package nl.koppeltaal.poc.fhir.service;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.gclient.ICriterion;
+import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import com.auth0.jwk.JwkException;
 import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.fhir.dto.ActivityDefinitionDto;
 import nl.koppeltaal.poc.fhir.dto.ActivityDefinitionDtoConverter;
 import nl.koppeltaal.poc.generic.TokenStorage;
 import org.hl7.fhir.r4.model.ActivityDefinition;
+import org.hl7.fhir.r4.model.codesystems.PublicationStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -41,7 +44,8 @@ public class ActivityDefinitionFhirClientService extends BaseFhirClientService<A
 	}
 
 	public List<ActivityDefinition> getResourcesForPatient(TokenStorage tokenStorage, String patientReference) throws IOException, JwkException {
-		return getResources(tokenStorage);
+		ICriterion<TokenClientParam> criterion = ActivityDefinition.STATUS.exactly().code(PublicationStatus.ACTIVE.getDefinition());
+		return getResources(criterion);
 	}
 
 }
