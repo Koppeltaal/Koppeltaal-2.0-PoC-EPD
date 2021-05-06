@@ -1,4 +1,4 @@
-package nl.koppeltaal.poc.epd.configuration;
+package nl.koppeltaal.poc.fhir.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

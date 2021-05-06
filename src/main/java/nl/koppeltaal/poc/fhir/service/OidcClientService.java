@@ -11,7 +11,7 @@ package nl.koppeltaal.poc.fhir.service;
 import com.auth0.jwk.JwkException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.koppeltaal.poc.epd.configuration.OidcConfiguration;
+import nl.koppeltaal.poc.fhir.configuration.OidcConfiguration;
 import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.fhir.dto.AuthorizationUrlDto;
 import nl.koppeltaal.poc.generic.IdTokenResponse;
