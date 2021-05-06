@@ -1,4 +1,4 @@
-package nl.koppeltaal.poc.fhir.configuration;
+package nl.koppeltaal.poc.oidc.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

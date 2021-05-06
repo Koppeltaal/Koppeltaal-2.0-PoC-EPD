@@ -21,18 +21,11 @@ import org.springframework.context.annotation.Configuration;
 public class FhirClientConfiguration {
 	String serverUrl;
 	String clientId;
+	String clientSecret;
 
 	@Bean
 	public FhirContext fhirContext() {
 		return FhirContext.forR4();
-	}
-
-	public String getServerUrl() {
-		return serverUrl;
-	}
-
-	public void setServerUrl(String serverUrl) {
-		this.serverUrl = serverUrl;
 	}
 
 	public String getClientId() {
@@ -41,6 +34,22 @@ public class FhirClientConfiguration {
 
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
+	}
+
+	public String getClientSecret() {
+		return clientSecret;
+	}
+
+	public void setClientSecret(String clientSecret) {
+		this.clientSecret = clientSecret;
+	}
+
+	public String getServerUrl() {
+		return serverUrl;
+	}
+
+	public void setServerUrl(String serverUrl) {
+		this.serverUrl = serverUrl;
 	}
 
 }

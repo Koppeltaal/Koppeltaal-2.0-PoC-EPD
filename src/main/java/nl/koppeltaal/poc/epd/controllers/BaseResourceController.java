@@ -29,13 +29,13 @@ public class BaseResourceController<D extends BaseDto, R extends DomainResource>
 	}
 
 	@RequestMapping(value = "{reference}", method = RequestMethod.DELETE)
-	public void delete(HttpSession httpSession, @PathVariable String reference) throws IOException, JwkException {
-		fhirClientService.deleteResourceByReference(new SessionTokenStorage(httpSession), reference);
+	public void delete(@PathVariable String reference) throws IOException, JwkException {
+		fhirClientService.deleteResourceByReference(reference);
 	}
 
 	@RequestMapping(value = "{reference}", method = RequestMethod.GET)
-	public D get(HttpSession httpSession, @PathVariable String reference) throws IOException, JwkException {
-		R activitydefinition = fhirClientService.getResourceByReference(new SessionTokenStorage(httpSession), reference);
+	public D get(@PathVariable String reference) throws IOException, JwkException {
+		R activitydefinition = fhirClientService.getResourceByReference(reference);
 		if (activitydefinition != null) {
 			return dtoConverter.convert(activitydefinition);
 		} else {
@@ -46,7 +46,7 @@ public class BaseResourceController<D extends BaseDto, R extends DomainResource>
 	@RequestMapping(method = RequestMethod.GET)
 	public List<D> list(HttpSession httpSession) throws IOException, JwkException {
 		List<D> rv = new ArrayList<>();
-		List<R> activitydefinitions = fhirClientService.getResources(new SessionTokenStorage(httpSession));
+		List<R> activitydefinitions = fhirClientService.getResources();
 		for (R activitydefinition : activitydefinitions) {
 			rv.add(dtoConverter.convert(activitydefinition));
 		}
@@ -54,8 +54,8 @@ public class BaseResourceController<D extends BaseDto, R extends DomainResource>
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public D put(HttpSession httpSession, HttpServletRequest request, @RequestBody D activitydefinitionDto) throws IOException, JwkException {
-		return dtoConverter.convert(fhirClientService.storeResource(new SessionTokenStorage(httpSession), UrlUtils.getServerUrl("", request), dtoConverter.convert(activitydefinitionDto)));
+	public D put(HttpServletRequest request, @RequestBody D activitydefinitionDto) throws IOException, JwkException {
+		return dtoConverter.convert(fhirClientService.storeResource(UrlUtils.getServerUrl("", request), dtoConverter.convert(activitydefinitionDto)));
 	}
 
 }

@@ -12,7 +12,7 @@ import com.auth0.jwk.JwkException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.koppeltaal.poc.fhir.configuration.OidcConfiguration;
+import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.generic.Oauth2TokenResponse;
 import nl.koppeltaal.poc.jwt.JwtValidationService;
 import org.apache.commons.io.IOUtils;
@@ -39,21 +39,24 @@ import java.util.List;
  */
 @Service
 public class Oauth2ClientService {
-	private final OidcConfiguration oidcConfiguration;
+	public static final String DEFAULT_SCOPE = "openid user/Patient.* user/Practitioner.*";
+	private final FhirClientConfiguration fhirClientConfiguration;
+	private final FhirCapabilitiesService fhirCapabilitiesService;
 	private final JwtValidationService jwtValidationService;
 
 	private Oauth2TokenResponse tokenResponse;
 
 
-	public Oauth2ClientService(OidcConfiguration oidcConfiguration, JwtValidationService jwtValidationService) {
-		this.oidcConfiguration = oidcConfiguration;
+	public Oauth2ClientService(FhirClientConfiguration fhirClientConfiguration, FhirCapabilitiesService fhirCapabilitiesService, JwtValidationService jwtValidationService) {
+		this.fhirClientConfiguration = fhirClientConfiguration;
+		this.fhirCapabilitiesService = fhirCapabilitiesService;
 		this.jwtValidationService = jwtValidationService;
 	}
 
 	public void checkCredentials() throws JwkException, IOException {
 		try {
 			if (tokenResponse != null) {
-				jwtValidationService.validate(tokenResponse.getAccessToken(), oidcConfiguration.getClientId(), 60);
+				jwtValidationService.validate(tokenResponse.getAccessToken(), null, 60);
 			}
 		} catch (TokenExpiredException e) {
 			refreshToken();
@@ -61,11 +64,12 @@ public class Oauth2ClientService {
 	}
 
 	public void fetchToken() throws IOException {
-		String tokenUrl = oidcConfiguration.getTokenUrl();
+		String tokenUrl = fhirCapabilitiesService.getTokenUrl();
 		try (CloseableHttpClient httpClient = createHttpClient()) {
 
 			List<NameValuePair> params = new ArrayList<>();
 			params.add(new BasicNameValuePair("grant_type", "client_credentials"));
+			params.add(new BasicNameValuePair("scope", DEFAULT_SCOPE));
 
 			postTokenRequest(tokenUrl, httpClient, params);
 		}
@@ -82,7 +86,7 @@ public class Oauth2ClientService {
 	}
 
 	public void refreshToken() throws IOException {
-		String tokenUrl = oidcConfiguration.getTokenUrl();
+		String tokenUrl = fhirCapabilitiesService.getTokenUrl();
 		try (CloseableHttpClient httpClient = createHttpClient()) {
 
 			List<NameValuePair> params = new ArrayList<>();
@@ -102,7 +106,7 @@ public class Oauth2ClientService {
 	private void postTokenRequest(String tokenUrl, CloseableHttpClient httpClient, List<NameValuePair> params) throws IOException {
 		final HttpPost httpPost = new HttpPost(tokenUrl);
 		httpPost.setHeader("Accept", "application/json");
-		httpPost.setHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", oidcConfiguration.getClientId(), oidcConfiguration.getClientSecret()).getBytes(StandardCharsets.US_ASCII)));
+		httpPost.setHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", fhirClientConfiguration.getClientId(), fhirClientConfiguration.getClientSecret()).getBytes(StandardCharsets.US_ASCII)));
 		httpPost.setEntity(new UrlEncodedFormEntity(params));
 		CloseableHttpResponse response = httpClient.execute(httpPost);
 		try (InputStream in = response.getEntity().getContent()) {

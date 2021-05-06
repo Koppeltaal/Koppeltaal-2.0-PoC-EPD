@@ -9,15 +9,14 @@
 package nl.koppeltaal.poc.epd.controllers;
 
 import com.auth0.jwk.JwkException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import nl.koppeltaal.poc.epd.dto.UserDto;
-import nl.koppeltaal.poc.fhir.service.OidcClientService;
+import nl.koppeltaal.poc.oidc.service.OidcClientService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 /**
  *
@@ -37,9 +36,13 @@ public class UserController {
 		UserDto rv = new UserDto();
 		SessionTokenStorage tokenStorage = new SessionTokenStorage(httpSession);
 		if (tokenStorage.hasIdToken()) {
-			rv.setUserId(oidcClientService.getUserIdFromCredentials(tokenStorage));
-			rv.setUserIdentifier(oidcClientService.getUserIdentifierFromCredentials(tokenStorage));
-			rv.setLoggedIn(true);
+			try {
+				rv.setUserId(oidcClientService.getUserIdFromCredentials(tokenStorage));
+				rv.setUserIdentifier(oidcClientService.getUserIdentifierFromCredentials(tokenStorage));
+				rv.setLoggedIn(true);
+			} catch (TokenExpiredException e) {
+				rv.setLoggedIn(false);
+			}
 		} else {
 			rv.setLoggedIn(false);
 		}

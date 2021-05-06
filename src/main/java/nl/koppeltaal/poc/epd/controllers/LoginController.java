@@ -9,7 +9,7 @@
 package nl.koppeltaal.poc.epd.controllers;
 
 import nl.koppeltaal.poc.fhir.dto.AuthorizationUrlDto;
-import nl.koppeltaal.poc.fhir.service.OidcClientService;
+import nl.koppeltaal.poc.oidc.service.OidcClientService;
 import nl.koppeltaal.poc.utils.UrlUtils;
 import org.junit.Assert;
 import org.springframework.stereotype.Controller;

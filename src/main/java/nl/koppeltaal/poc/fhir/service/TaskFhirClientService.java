@@ -52,7 +52,7 @@ public class TaskFhirClientService extends BaseFhirClientService<TaskDto, Task> 
 			task.getRestriction().addRecipient(buildReference(practitioner));
 			task.getExecutionPeriod().setStart(new Date());
 			task.setInstantiatesCanonical(ResourceUtils.getReference(activityDefinition));
-			task = storeResource(tokenStorage, "system", task);
+			task = storeResource("system", task);
 		} else {
 			task = tasks.get(0);
 		}

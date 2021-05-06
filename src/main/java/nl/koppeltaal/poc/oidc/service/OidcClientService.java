@@ -6,17 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package nl.koppeltaal.poc.fhir.service;
+package nl.koppeltaal.poc.oidc.service;
 
 import com.auth0.jwk.JwkException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.koppeltaal.poc.fhir.configuration.OidcConfiguration;
 import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.fhir.dto.AuthorizationUrlDto;
 import nl.koppeltaal.poc.generic.IdTokenResponse;
 import nl.koppeltaal.poc.generic.TokenStorage;
 import nl.koppeltaal.poc.jwt.JwtValidationService;
+import nl.koppeltaal.poc.oidc.configuration.OidcConfiguration;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
@@ -108,5 +108,6 @@ public class OidcClientService {
 	private DecodedJWT getIdToken(TokenStorage tokenStorage) throws JwkException {
 		return jwtValidationService.validate(tokenStorage.getIdToken().getIdToken(), oidcConfiguration.getClientId(), 60);
 	}
+
 
 }
