@@ -9,7 +9,7 @@
 package nl.koppeltaal.poc.epd.controllers;
 
 import nl.koppeltaal.poc.fhir.dto.AuthorizationUrlDto;
-import nl.koppeltaal.poc.fhir.service.Oauth2ClientService;
+import nl.koppeltaal.poc.fhir.service.OidcClientService;
 import nl.koppeltaal.poc.utils.UrlUtils;
 import org.junit.Assert;
 import org.springframework.stereotype.Controller;
@@ -30,17 +30,20 @@ import java.io.IOException;
 
 public class LoginController {
 
-	final Oauth2ClientService oauth2ClientService;
+	final OidcClientService oidcClientService;
 
-	public LoginController(Oauth2ClientService oauth2ClientService) {
-		this.oauth2ClientService = oauth2ClientService;
+	public LoginController(OidcClientService oidcClientService) {
+		this.oidcClientService = oidcClientService;
 	}
 
 	@SuppressWarnings("SameReturnValue")
 	@RequestMapping("code_response")
 	public String codeResponse(HttpSession httpSession, HttpServletRequest request, String code, String state) throws IOException {
-		Assert.assertEquals(state, httpSession.getAttribute("state"));
-		oauth2ClientService.getToken(code, UrlUtils.getServerUrl("/code_response", request), new SessionTokenStorage(httpSession));
+		Object stateAttribute = httpSession.getAttribute("state");
+		if (stateAttribute != null) {
+			Assert.assertEquals(state, stateAttribute);
+		}
+		oidcClientService.getIdToken(code, UrlUtils.getServerUrl("/code_response", request), new SessionTokenStorage(httpSession));
 
 		return "redirect:index.html";
 
@@ -48,8 +51,9 @@ public class LoginController {
 
 	@RequestMapping("/login")
 	public View login(HttpSession httpSession, RedirectAttributes redirectAttributes, HttpServletRequest request) {
-		AuthorizationUrlDto authorizationUrl = oauth2ClientService.getAuthorizationUrl(UrlUtils.getServerUrl("", request), UrlUtils.getServerUrl("/code_response", request));
+		AuthorizationUrlDto authorizationUrl = oidcClientService.getAuthorizationUrl(UrlUtils.getServerUrl("", request), UrlUtils.getServerUrl("/code_response", request));
 		httpSession.setAttribute("state", authorizationUrl.getState());
+		System.out.println(authorizationUrl.getState());
 		redirectAttributes.addAllAttributes(authorizationUrl.getParameters());
 		return new RedirectView(authorizationUrl.getUrl());
 	}

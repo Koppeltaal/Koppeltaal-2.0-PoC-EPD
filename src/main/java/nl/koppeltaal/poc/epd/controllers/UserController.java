@@ -10,7 +10,7 @@ package nl.koppeltaal.poc.epd.controllers;
 
 import com.auth0.jwk.JwkException;
 import nl.koppeltaal.poc.epd.dto.UserDto;
-import nl.koppeltaal.poc.fhir.service.Oauth2ClientService;
+import nl.koppeltaal.poc.fhir.service.OidcClientService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,19 +26,19 @@ import java.io.IOException;
 @RequestMapping("/api/user")
 public class UserController {
 
-	final Oauth2ClientService oauth2ClientService;
+	final OidcClientService oidcClientService;
 
-	public UserController(Oauth2ClientService oauth2ClientService) {
-		this.oauth2ClientService = oauth2ClientService;
+	public UserController(OidcClientService oidcClientService) {
+		this.oidcClientService = oidcClientService;
 	}
 
 	@RequestMapping(value = "current", method = RequestMethod.GET)
-	public UserDto getUser(HttpSession httpSession, HttpServletRequest request) throws JwkException, IOException {
+	public UserDto getUser(HttpSession httpSession) throws JwkException {
 		UserDto rv = new UserDto();
 		SessionTokenStorage tokenStorage = new SessionTokenStorage(httpSession);
-		if (tokenStorage.hasToken()) {
-			rv.setUserId(oauth2ClientService.getUserIdFromCredentials(tokenStorage));
-			rv.setUserIdentifier(oauth2ClientService.getUserIdentifierFromCredentials(tokenStorage));
+		if (tokenStorage.hasIdToken()) {
+			rv.setUserId(oidcClientService.getUserIdFromCredentials(tokenStorage));
+			rv.setUserIdentifier(oidcClientService.getUserIdentifierFromCredentials(tokenStorage));
 			rv.setLoggedIn(true);
 		} else {
 			rv.setLoggedIn(false);
