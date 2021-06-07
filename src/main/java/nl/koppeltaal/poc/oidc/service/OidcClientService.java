@@ -11,12 +11,11 @@ package nl.koppeltaal.poc.oidc.service;
 import com.auth0.jwk.JwkException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.fhir.dto.AuthorizationUrlDto;
 import nl.koppeltaal.poc.generic.IdTokenResponse;
 import nl.koppeltaal.poc.generic.TokenStorage;
-import nl.koppeltaal.poc.jwt.JwtValidationService;
 import nl.koppeltaal.poc.oidc.configuration.OidcConfiguration;
+import nl.koppeltaal.spring.boot.starter.smartservice.service.jwt.JwtValidationService;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
@@ -42,7 +41,7 @@ public class OidcClientService {
 	final JwtValidationService jwtValidationService;
 	final OidcConfiguration oidcConfiguration;
 
-	public OidcClientService(JwtValidationService jwtValidationService, FhirClientConfiguration fhirClientConfiguration, OidcConfiguration oidcConfiguration) {
+	public OidcClientService(JwtValidationService jwtValidationService, OidcConfiguration oidcConfiguration) {
 		this.jwtValidationService = jwtValidationService;
 		this.oidcConfiguration = oidcConfiguration;
 	}

@@ -9,9 +9,10 @@
 package nl.koppeltaal.poc.fhir.service;
 
 import ca.uhn.fhir.context.FhirContext;
-import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.fhir.dto.PatientDto;
 import nl.koppeltaal.poc.fhir.dto.PatientDtoConverter;
+import nl.koppeltaal.spring.boot.starter.smartservice.configuration.SmartServiceConfiguration;
+import nl.koppeltaal.spring.boot.starter.smartservice.service.fhir.SmartClientCredentialService;
 import org.hl7.fhir.r4.model.Patient;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class PatientFhirClientService extends BaseFhirClientService<PatientDto, Patient> {
 
-	public PatientFhirClientService(FhirClientConfiguration fhirClientConfiguration, Oauth2ClientService oauth2ClientService, FhirContext fhirContext, PatientDtoConverter patientDtoConverter) {
-		super(fhirClientConfiguration, oauth2ClientService, fhirContext, patientDtoConverter);
+	public PatientFhirClientService(SmartServiceConfiguration smartServiceConfiguration, SmartClientCredentialService smartClientCredentialService, FhirContext fhirContext, PatientDtoConverter patientDtoConverter) {
+		super(smartServiceConfiguration, smartClientCredentialService, fhirContext, patientDtoConverter);
 	}
 
 	@Override

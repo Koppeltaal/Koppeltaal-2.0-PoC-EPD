@@ -12,10 +12,11 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.gclient.ICriterion;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import com.auth0.jwk.JwkException;
-import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.fhir.dto.TaskDto;
 import nl.koppeltaal.poc.fhir.dto.TaskDtoConverter;
 import nl.koppeltaal.poc.fhir.utils.ResourceUtils;
+import nl.koppeltaal.spring.boot.starter.smartservice.configuration.SmartServiceConfiguration;
+import nl.koppeltaal.spring.boot.starter.smartservice.service.fhir.SmartClientCredentialService;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
@@ -30,8 +31,8 @@ import java.util.*;
 @Service
 public class TaskFhirClientService extends BaseFhirClientService<TaskDto, Task> {
 
-	public TaskFhirClientService(FhirClientConfiguration fhirClientConfiguration, Oauth2ClientService oauth2ClientService, FhirContext fhirContext, TaskDtoConverter taskDtoConverter) {
-		super(fhirClientConfiguration, oauth2ClientService, fhirContext, taskDtoConverter);
+	public TaskFhirClientService(SmartServiceConfiguration smartServiceConfiguration, SmartClientCredentialService smartClientCredentialService, FhirContext fhirContext, TaskDtoConverter taskDtoConverter) {
+		super(smartServiceConfiguration, smartClientCredentialService, fhirContext, taskDtoConverter);
 	}
 
 	public Task getOrCreateTask(Patient patient, Practitioner practitioner, ActivityDefinition activityDefinition, boolean forceNew) throws IOException, JwkException {
