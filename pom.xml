@@ -87,5 +87,12 @@
       <id>gitlab-maven</id>
       <url>https://gitlab.com/api/v4/groups/10998572/-/packages/maven</url>
     </repository>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/Koppeltaal/*</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
   </repositories>
 </project>
