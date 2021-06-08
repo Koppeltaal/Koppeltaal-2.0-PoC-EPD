@@ -12,9 +12,10 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.gclient.ICriterion;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import com.auth0.jwk.JwkException;
-import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.fhir.dto.ActivityDefinitionDto;
 import nl.koppeltaal.poc.fhir.dto.ActivityDefinitionDtoConverter;
+import nl.koppeltaal.spring.boot.starter.smartservice.configuration.SmartServiceConfiguration;
+import nl.koppeltaal.spring.boot.starter.smartservice.service.fhir.SmartClientCredentialService;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.ActivityDefinition;
 import org.hl7.fhir.r4.model.codesystems.PublicationStatus;
@@ -29,8 +30,8 @@ import java.util.List;
 @Service
 public class ActivityDefinitionFhirClientService extends BaseFhirClientService<ActivityDefinitionDto, ActivityDefinition> {
 
-	public ActivityDefinitionFhirClientService(FhirClientConfiguration fhirClientConfiguration, Oauth2ClientService oauth2ClientService, FhirContext fhirContext, ActivityDefinitionDtoConverter activityDefinitionDtoConverter) {
-		super(fhirClientConfiguration, oauth2ClientService, fhirContext, activityDefinitionDtoConverter);
+	public ActivityDefinitionFhirClientService(SmartServiceConfiguration smartServiceConfiguration, SmartClientCredentialService smartClientCredentialService, FhirContext fhirContext, ActivityDefinitionDtoConverter activityDefinitionDtoConverter) {
+		super(smartServiceConfiguration, smartClientCredentialService, fhirContext, activityDefinitionDtoConverter);
 	}
 
 	public List<ActivityDefinition> getResourcesForPatient(String patientReference) throws IOException, JwkException {

@@ -9,9 +9,10 @@
 package nl.koppeltaal.poc.fhir.service;
 
 import ca.uhn.fhir.context.FhirContext;
-import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.fhir.dto.EndpointDto;
 import nl.koppeltaal.poc.fhir.dto.EndpointDtoConverter;
+import nl.koppeltaal.spring.boot.starter.smartservice.configuration.SmartServiceConfiguration;
+import nl.koppeltaal.spring.boot.starter.smartservice.service.fhir.SmartClientCredentialService;
 import org.hl7.fhir.r4.model.Endpoint;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class EndpointFhirClientService extends BaseFhirClientService<EndpointDto, Endpoint> {
 
-	public EndpointFhirClientService(FhirClientConfiguration fhirClientConfiguration, Oauth2ClientService oauth2ClientService, FhirContext fhirContext, EndpointDtoConverter locationDtoConverter) {
-		super(fhirClientConfiguration, oauth2ClientService, fhirContext, locationDtoConverter);
+	public EndpointFhirClientService(SmartServiceConfiguration smartServiceConfiguration, SmartClientCredentialService smartClientCredentialService, FhirContext fhirContext, EndpointDtoConverter locationDtoConverter) {
+		super(smartServiceConfiguration, smartClientCredentialService, fhirContext, locationDtoConverter);
 	}
 
 	@Override

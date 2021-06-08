@@ -15,17 +15,22 @@ import ca.uhn.fhir.rest.client.interceptor.BearerTokenAuthInterceptor;
 import ca.uhn.fhir.rest.gclient.ICriterion;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import com.auth0.jwk.JwkException;
-import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
-import nl.koppeltaal.poc.fhir.dto.BaseDto;
-import nl.koppeltaal.poc.fhir.dto.DtoConverter;
-import org.apache.commons.lang3.StringUtils;
-import org.hl7.fhir.r4.model.*;
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import nl.koppeltaal.poc.fhir.dto.BaseDto;
+import nl.koppeltaal.poc.fhir.dto.DtoConverter;
+import nl.koppeltaal.spring.boot.starter.smartservice.configuration.SmartServiceConfiguration;
+import nl.koppeltaal.spring.boot.starter.smartservice.service.fhir.SmartClientCredentialService;
+import org.apache.commons.lang3.StringUtils;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.DomainResource;
+import org.hl7.fhir.r4.model.IdType;
+import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.Reference;
 
 /**
  *
@@ -33,14 +38,14 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public abstract class BaseFhirClientService<D extends BaseDto, R extends DomainResource> {
 
-	final FhirClientConfiguration fhirClientConfiguration;
-	final Oauth2ClientService oauth2ClientService;
+	final SmartServiceConfiguration smartServiceConfiguration;
+	final SmartClientCredentialService smartClientCredentialService;
 	final FhirContext fhirContext;
 	final DtoConverter<D, R> dtoConverter;
 
-	public BaseFhirClientService(FhirClientConfiguration fhirClientConfiguration, Oauth2ClientService oauth2ClientService, FhirContext fhirContext, DtoConverter<D, R> dtoConverter) {
-		this.fhirClientConfiguration = fhirClientConfiguration;
-		this.oauth2ClientService = oauth2ClientService;
+	public BaseFhirClientService(SmartServiceConfiguration smartServiceConfiguration, SmartClientCredentialService smartClientCredentialService, FhirContext fhirContext, DtoConverter<D, R> dtoConverter) {
+		this.smartServiceConfiguration = smartServiceConfiguration;
+		this.smartClientCredentialService = smartClientCredentialService;
 		this.fhirContext = fhirContext;
 		this.dtoConverter = dtoConverter;
 	}
@@ -125,9 +130,9 @@ public abstract class BaseFhirClientService<D extends BaseDto, R extends DomainR
 
 	protected IGenericClient getFhirClient() throws JwkException, IOException {
 
-		IGenericClient iGenericClient = fhirContext.newRestfulGenericClient(fhirClientConfiguration.getServerUrl());
+		IGenericClient iGenericClient = fhirContext.newRestfulGenericClient(smartServiceConfiguration.getFhirServerUrl());
 
-		iGenericClient.registerInterceptor(new BearerTokenAuthInterceptor(oauth2ClientService.getAccessToken()));
+		iGenericClient.registerInterceptor(new BearerTokenAuthInterceptor(smartClientCredentialService.getAccessToken()));
 
 		return iGenericClient;
 

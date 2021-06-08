@@ -24,30 +24,6 @@ public class PatientDto extends OrgPersonDto {
 		this.homeEmail = homeEmail;
 	}
 
-	public String getReference() {
-		return reference;
-	}
-
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
-
-	public String getIdentifierSystem() {
-		return identifierSystem;
-	}
-
-	public void setIdentifierSystem(String identifierSystem) {
-		this.identifierSystem = identifierSystem;
-	}
-
-	public String getIdentifierValue() {
-		return identifierValue;
-	}
-
-	public void setIdentifierValue(String identifierValue) {
-		this.identifierValue = identifierValue;
-	}
-
 	public String getWorkEmail() {
 		return workEmail;
 	}
@@ -56,11 +32,4 @@ public class PatientDto extends OrgPersonDto {
 		this.workEmail = workEmail;
 	}
 
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
 }

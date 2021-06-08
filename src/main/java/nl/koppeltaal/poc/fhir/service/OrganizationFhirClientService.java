@@ -9,9 +9,10 @@
 package nl.koppeltaal.poc.fhir.service;
 
 import ca.uhn.fhir.context.FhirContext;
-import nl.koppeltaal.poc.fhir.configuration.FhirClientConfiguration;
 import nl.koppeltaal.poc.fhir.dto.OrganizationDto;
 import nl.koppeltaal.poc.fhir.dto.OrganizationDtoConverter;
+import nl.koppeltaal.spring.boot.starter.smartservice.configuration.SmartServiceConfiguration;
+import nl.koppeltaal.spring.boot.starter.smartservice.service.fhir.SmartClientCredentialService;
 import org.hl7.fhir.r4.model.Organization;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrganizationFhirClientService extends BaseFhirClientService<OrganizationDto, Organization> {
 
-	public OrganizationFhirClientService(FhirClientConfiguration fhirClientConfiguration, Oauth2ClientService oauth2ClientService, FhirContext fhirContext, OrganizationDtoConverter organizationDtoConverter) {
-		super(fhirClientConfiguration, oauth2ClientService, fhirContext, organizationDtoConverter);
+	public OrganizationFhirClientService(SmartServiceConfiguration smartServiceConfiguration, SmartClientCredentialService smartClientCredentialService, FhirContext fhirContext, OrganizationDtoConverter organizationDtoConverter) {
+		super(smartServiceConfiguration, smartClientCredentialService, fhirContext, organizationDtoConverter);
 	}
 
 	@Override
