@@ -8,9 +8,9 @@
 
 package nl.koppeltaal.poc.epd.controllers;
 
-import nl.koppeltaal.poc.fhir.dto.OrganizationDto;
-import nl.koppeltaal.poc.fhir.dto.OrganizationDtoConverter;
-import nl.koppeltaal.poc.fhir.service.OrganizationFhirClientService;
+import nl.koppeltaal.spring.boot.starter.smartservice.dto.OrganizationDto;
+import nl.koppeltaal.spring.boot.starter.smartservice.dto.OrganizationDtoConverter;
+import nl.koppeltaal.spring.boot.starter.smartservice.service.fhir.OrganizationFhirClientService;
 import org.hl7.fhir.r4.model.Organization;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

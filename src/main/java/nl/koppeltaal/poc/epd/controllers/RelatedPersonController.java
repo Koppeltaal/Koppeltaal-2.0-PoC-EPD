@@ -8,9 +8,9 @@
 
 package nl.koppeltaal.poc.epd.controllers;
 
-import nl.koppeltaal.poc.fhir.dto.RelatedPersonDto;
-import nl.koppeltaal.poc.fhir.dto.RelatedPersonDtoConverter;
-import nl.koppeltaal.poc.fhir.service.RelatedPersonFhirClientService;
+import nl.koppeltaal.spring.boot.starter.smartservice.dto.RelatedPersonDto;
+import nl.koppeltaal.spring.boot.starter.smartservice.dto.RelatedPersonDtoConverter;
+import nl.koppeltaal.spring.boot.starter.smartservice.service.fhir.RelatedPersonFhirClientService;
 import org.hl7.fhir.r4.model.RelatedPerson;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

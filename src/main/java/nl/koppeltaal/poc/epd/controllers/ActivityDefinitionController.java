@@ -8,9 +8,9 @@
 
 package nl.koppeltaal.poc.epd.controllers;
 
-import nl.koppeltaal.poc.fhir.dto.ActivityDefinitionDto;
-import nl.koppeltaal.poc.fhir.dto.ActivityDefinitionDtoConverter;
-import nl.koppeltaal.poc.fhir.service.ActivityDefinitionFhirClientService;
+import nl.koppeltaal.spring.boot.starter.smartservice.dto.ActivityDefinitionDto;
+import nl.koppeltaal.spring.boot.starter.smartservice.dto.ActivityDefinitionDtoConverter;
+import nl.koppeltaal.spring.boot.starter.smartservice.service.fhir.ActivityDefinitionFhirClientService;
 import org.hl7.fhir.r4.model.ActivityDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

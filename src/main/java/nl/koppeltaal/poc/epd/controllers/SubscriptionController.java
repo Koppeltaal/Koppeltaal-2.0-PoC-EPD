@@ -8,9 +8,9 @@
 
 package nl.koppeltaal.poc.epd.controllers;
 
-import nl.koppeltaal.poc.fhir.dto.SubscriptionDto;
-import nl.koppeltaal.poc.fhir.dto.SubscriptionDtoConverter;
-import nl.koppeltaal.poc.fhir.service.SubscriptionFhirClientService;
+import nl.koppeltaal.spring.boot.starter.smartservice.dto.SubscriptionDto;
+import nl.koppeltaal.spring.boot.starter.smartservice.dto.SubscriptionDtoConverter;
+import nl.koppeltaal.spring.boot.starter.smartservice.service.fhir.SubscriptionFhirClientService;
 import org.hl7.fhir.r4.model.Subscription;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

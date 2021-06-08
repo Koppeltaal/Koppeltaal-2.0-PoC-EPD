@@ -8,19 +8,18 @@
 
 package nl.koppeltaal.poc.epd.controllers;
 
-import nl.koppeltaal.poc.fhir.dto.AuthorizationUrlDto;
+import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import nl.koppeltaal.poc.oidc.service.OidcClientService;
 import nl.koppeltaal.poc.utils.UrlUtils;
+import nl.koppeltaal.spring.boot.starter.smartservice.dto.AuthorizationUrlDto;
 import org.junit.Assert;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 /**
  *
