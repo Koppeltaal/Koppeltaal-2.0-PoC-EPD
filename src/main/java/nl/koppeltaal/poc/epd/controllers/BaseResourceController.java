@@ -1,12 +1,12 @@
 package nl.koppeltaal.poc.epd.controllers;
 
+import ca.uhn.fhir.rest.api.SortSpec;
 import com.auth0.jwk.JwkException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import nl.koppeltaal.poc.utils.UrlUtils;
 import nl.koppeltaal.spring.boot.starter.smartservice.dto.BaseDto;
 import nl.koppeltaal.spring.boot.starter.smartservice.dto.DtoConverter;
 import nl.koppeltaal.spring.boot.starter.smartservice.exception.EnitityNotFoundException;
@@ -24,6 +24,14 @@ public class BaseResourceController<D extends BaseDto, R extends DomainResource>
 
 	final BaseFhirClientService<D, R> fhirClientService;
 	final DtoConverter<D, R> dtoConverter;
+
+	/**
+	 * Allow subclasses to override the sorting spec
+	 * @return
+	 */
+	public SortSpec getSortSpec() {
+		return null;
+	}
 
 	public BaseResourceController(BaseFhirClientService<D, R> fhirClientService, DtoConverter<D, R> dtoConverter) {
 		this.fhirClientService = fhirClientService;
@@ -48,7 +56,7 @@ public class BaseResourceController<D extends BaseDto, R extends DomainResource>
 	@RequestMapping(method = RequestMethod.GET)
 	public List<D> list(HttpSession httpSession) throws IOException, JwkException {
 		List<D> rv = new ArrayList<>();
-		List<R> activitydefinitions = fhirClientService.getResources();
+		List<R> activitydefinitions = fhirClientService.getResources(getSortSpec());
 		for (R activitydefinition : activitydefinitions) {
 			rv.add(dtoConverter.convert(activitydefinition));
 		}
@@ -56,8 +64,8 @@ public class BaseResourceController<D extends BaseDto, R extends DomainResource>
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public D put(HttpServletRequest request, @RequestBody D activitydefinitionDto) throws IOException, JwkException {
-		return dtoConverter.convert(fhirClientService.storeResource(UrlUtils.getServerUrl("", request), dtoConverter.convert(activitydefinitionDto)));
+	public D put(HttpServletRequest request, @RequestBody D activitydefinitionDto) throws IOException {
+		return dtoConverter.convert(fhirClientService.storeResource(dtoConverter.convert(activitydefinitionDto)));
 	}
 
 }
