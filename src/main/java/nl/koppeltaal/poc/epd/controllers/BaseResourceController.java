@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import nl.koppeltaal.spring.boot.starter.smartservice.dto.BaseDto;
 import nl.koppeltaal.spring.boot.starter.smartservice.dto.DtoConverter;
 import nl.koppeltaal.spring.boot.starter.smartservice.exception.EnitityNotFoundException;
-import nl.koppeltaal.spring.boot.starter.smartservice.service.fhir.BaseFhirClientService;
+import nl.koppeltaal.spring.boot.starter.smartservice.service.fhir.BaseFhirClientCrudService;
 import org.hl7.fhir.r4.model.DomainResource;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 public class BaseResourceController<D extends BaseDto, R extends DomainResource> {
 
-	final BaseFhirClientService<D, R> fhirClientService;
+	final BaseFhirClientCrudService<D, R> fhirClientService;
 	final DtoConverter<D, R> dtoConverter;
 
 	/**
@@ -33,7 +33,7 @@ public class BaseResourceController<D extends BaseDto, R extends DomainResource>
 		return null;
 	}
 
-	public BaseResourceController(BaseFhirClientService<D, R> fhirClientService, DtoConverter<D, R> dtoConverter) {
+	public BaseResourceController(BaseFhirClientCrudService<D, R> fhirClientService, DtoConverter<D, R> dtoConverter) {
 		this.fhirClientService = fhirClientService;
 		this.dtoConverter = dtoConverter;
 	}
