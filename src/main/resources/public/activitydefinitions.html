@@ -34,7 +34,6 @@
             <li class="tab"><a href="relatedperson.html">Related Person</a></li>
             <li class="tab"><a href="organizations.html">Organizations</a></li>
             <li class="tab"><a href="activitydefinitions.html" class="active">Activity Definitions</a></li>
-            <li class="tab"><a href="locations.html">Locations</a></li>
             <li class="tab"><a href="endpoints.html">Endpoints</a></li>
             <li class="tab"><a href="subscriptions.html">Subscriptions</a></li>
             <li class="tab"><a href="auditevents.html">Audit Events</a></li>
@@ -116,10 +115,10 @@
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">perm_identity</i>
-                            <select id="location" name="location">
+                            <select id="endpoint" name="endpoint">
                                 <option value=""></option>
                             </select>
-                            <label for="location">Location</label>
+                            <label for="endpoint">Endpoint (extension)</label>
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">account_balance</i>
@@ -172,7 +171,7 @@
         for (let activitydefinition of Object.values(data)) {
           const tr = document.createElement('tr');
           tr.append(createTd(activitydefinition.title));
-          tr.append(createTd(activitydefinition.address));
+          tr.append(createTd(activitydefinition.endpoint));
           let td = document.createElement('td');
           let deleteAction = parseHtml('<a href="#" class="btn-small waves-effect waves-light purple"><i class="small material-icons left">delete_forever</i>delete</a>')
           deleteAction.setAttribute("data-reference", activitydefinition.reference)
@@ -247,12 +246,12 @@
           }
         }
       });
-    fetch('/api/Location')
+      fetch('/api/Endpoint')
       .then(jsonResponseHandler)
-      .then((data) => {
-        for (let location of Object.values(data)) {
-          document.getElementById('location').append(parseHtml('<option value="' + location.reference + '">' + location.endpoint + '</option>'))
-        }
+      .then((endpoints) => {
+          endpoints.forEach((endpoint) => {
+              document.getElementById('endpoint').append(parseHtml('<option value="' + endpoint.reference + '">' + endpoint.name + '</option>'))
+          });
       }).then(updateForm);
   }, false);
 </script>
