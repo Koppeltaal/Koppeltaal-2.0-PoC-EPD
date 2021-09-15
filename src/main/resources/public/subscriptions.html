@@ -73,6 +73,7 @@
                     <th>Endpoint</th>
                     <th>Header</th>
                     <th>Payload</th>
+                    <th>Reason</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -105,6 +106,14 @@
                                 <option value="OFF">off</option>
                             </select>
                             <label for="status">Status</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">contact_mail</i>
+                            <input placeholder="Tracking changes on my Patient resources" name="reason" id="reason" type="text"
+                                   class="validate">
+                            <label for="reason">Reason</label>
                         </div>
                     </div>
                     <div class="row">
@@ -260,6 +269,7 @@
           tr.append(createTd(subscription.endpoint));
           tr.append(createTd(subscription.header));
           tr.append(createTd(payloadMap[subscription.payload || "NULL"]));
+          tr.append(createTd(subscription.reason));
           let td = document.createElement('td');
           let deleteAction = parseHtml('<a href="#" class="btn-small waves-effect waves-light purple"><i class="small material-icons left">delete_forever</i>delete</a>')
           deleteAction.setAttribute("data-reference", subscription.reference)
