@@ -53,6 +53,7 @@
                 <thead>
                 <tr>
                     <th>Title</th>
+                    <th>Name</th>
                     <th>Address</th>
                     <th>Action</th>
                 </tr>
@@ -171,6 +172,7 @@
         for (let activitydefinition of Object.values(data)) {
           const tr = document.createElement('tr');
           tr.append(createTd(activitydefinition.title));
+          tr.append(createTd(activitydefinition.name));
           tr.append(createTd(activitydefinition.endpoint));
           let td = document.createElement('td');
           let deleteAction = parseHtml('<a href="#" class="btn-small waves-effect waves-light purple"><i class="small material-icons left">delete_forever</i>delete</a>')
