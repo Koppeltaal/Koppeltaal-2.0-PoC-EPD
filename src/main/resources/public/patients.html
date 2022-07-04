@@ -189,7 +189,7 @@
           tr.append(createTd(patient.nameGiven, patient.nameFamily));
           tr.append(createTd(patient.homeEmail, patient.workEmail));
           let td = document.createElement('td');
-          let deleteAction = parseHtml('<a href="#" class="btn-small waves-effect waves-light purple"><i class="small material-icons left">delete_forever</i>delete</a>')
+          let deleteAction = parseHtml('<a href="#" class="btn-small waves-effect waves-light purple"><i class="small material-icons left">delete_forever</i>deactivate</a>')
           deleteAction.setAttribute("data-reference", patient.reference)
           deleteAction.onclick = (e) => {
             const id = e.target.getAttribute("data-reference");
