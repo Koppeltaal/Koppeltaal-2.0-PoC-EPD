@@ -55,6 +55,7 @@
                     <th>Datum</th>
                     <th>Type</th>
                     <th>SubType</th>
+                    <th>Action</th>
                     <th>Wat</th>
                     <th>Wie</th>
                 </tr>
@@ -92,8 +93,9 @@
           const recorded = new Date(auditEvent.recorded);
 
           tr.append(createTd(`${recorded.toLocaleDateString("nl-NL")} ${recorded.toLocaleTimeString("nl-NL")}` ));
-          tr.append(createTd(auditEvent.type));
-          tr.append(createTd(auditEvent.subType));
+          tr.append(createTd(auditEvent.type.display));
+          tr.append(createTd(auditEvent.subType.display));
+          tr.append(createTd(auditEvent.action));
           tr.append(createTd(auditEvent.entityWhat));
           tr.append(createTd(auditEvent.source));
           let td = document.createElement('td');
