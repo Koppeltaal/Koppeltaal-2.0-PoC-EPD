@@ -53,9 +53,9 @@
                 <thead>
                 <tr>
                     <th>Datum</th>
-                    <th>Type</th>
+                    <th>Span/Trace</th>
                     <th>SubType</th>
-                    <th>Action</th>
+                    <th>Outcome</th>
                     <th>Wat</th>
                     <th>Wie</th>
                 </tr>
@@ -93,10 +93,26 @@
           const recorded = new Date(auditEvent.recorded);
 
           tr.append(createTd(`${recorded.toLocaleDateString("nl-NL")} ${recorded.toLocaleTimeString("nl-NL")}` ));
-          tr.append(createTd(auditEvent.type.display));
+          tr.append(createTd(auditEvent.spanId + '/' + auditEvent.traceId));
           tr.append(createTd(auditEvent.subType.display));
-          tr.append(createTd(auditEvent.action));
-          tr.append(createTd(auditEvent.entityWhat));
+          tr.append(createTd(auditEvent.outcome));
+          if (auditEvent.entityWhat.length > 1) {
+            let td = document.createElement('td');
+            let ol = document.createElement('ol');
+            for(const what of auditEvent.entityWhat) {
+              if (td.innerText.length === 0) {
+                td.append(what);
+              } else {
+                let li = document.createElement('li');
+                li.innerText = what;
+                ol.append(li)
+              }
+            }
+            td.append(ol);
+            tr.append(td);
+          } else {
+            tr.append(createTd(auditEvent.entityWhat[0]));
+          }
           tr.append(createTd(auditEvent.source));
           let td = document.createElement('td');
           tr.append(td);
